@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
-import Brands from "../components/Brands";
 import FeaturedPosts from "../components/FeaturedPosts";
+import ProductList from "../components/ProductList";
+import Brands from "../components/Brands";
 
 export default function HomePage() {
   return (
@@ -8,6 +9,7 @@ export default function HomePage() {
       <Hero />
       <Brands />
       <FeaturedPosts />
+      <ProductList />
     </>
   );
 }
