@@ -8,6 +8,7 @@ import {
   Heart,
 } from "lucide-react";
 import { FaInstagram, FaYoutube, FaFacebook, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -42,24 +43,24 @@ export default function Header() {
         <h1 className="text-[24px] font-bold text-[#252B42]">Bandage</h1>
 
         <nav className="hidden lg:flex items-center gap-[21px]">
-          <a href="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="#" className="text-[14px] font-bold text-[#737373]">
             Home
-          </a>
-          <a href="#" className="text-[14px] font-bold text-[#737373]">
+          </Link>
+          <Link to="#" className="text-[14px] font-bold text-[#737373]">
             Shop
-          </a>
-          <a href="#" className="text-[14px] font-bold text-[#737373]">
+          </Link>
+          <Link to="#" className="text-[14px] font-bold text-[#737373]">
             About
-          </a>
-          <a href="#" className="text-[14px] font-bold text-[#737373]">
+          </Link>
+          <Link to="#" className="text-[14px] font-bold text-[#737373]">
             Blog
-          </a>
-          <a href="#" className="text-[14px] font-bold text-[#737373]">
+          </Link>
+          <Link to="#" className="text-[14px] font-bold text-[#737373]">
             Contact
-          </a>
-          <a href="#" className="text-[14px] font-bold text-[#737373]">
+          </Link>
+          <Link to="#" className="text-[14px] font-bold text-[#737373]">
             Pages
-          </a>
+          </Link>
         </nav>
 
         <div className="hidden lg:flex items-center gap-4 text-[#23A6F0]">
@@ -80,18 +81,18 @@ export default function Header() {
       </div>
 
       <nav className="flex flex-col items-center gap-[30px] py-10 lg:hidden">
-        <a href="/" className="text-[30px] leading-[45px] text-[#737373]">
+        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Home
-        </a>
-        <a href="/" className="text-[30px] leading-[45px] text-[#737373]">
+        </Link>
+        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Product
-        </a>
-        <a href="/" className="text-[30px] leading-[45px] text-[#737373]">
+        </Link>
+        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Pricing
-        </a>
-        <a href="/" className="text-[30px] leading-[45px] text-[#737373]">
+        </Link>
+        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Contact
-        </a>
+        </Link>
       </nav>
     </header>
   );

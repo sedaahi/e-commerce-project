@@ -18,10 +18,9 @@ export default function ProductList() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-y-[80px] md:grid-cols-5 md:gap-x-[30px] md:gap-y-[50px]">
+      <div className="flex flex-col items-center gap-y-[80px] md:flex-row md:flex-wrap md:justify-center md:gap-x-[30px] md:gap-y-[50px]">
         {products.map((product, index) => (
-          //mobilde 5 webde hepsini göster
-          <div key={product.id} className={index >= 5 ? "hidden md:block" : ""}>  
+          <div key={product.id} className={index >= 5 ? "hidden md:block" : ""}>
             <ProductCard product={product} />
           </div>
         ))}

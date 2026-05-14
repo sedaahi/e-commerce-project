@@ -5,6 +5,7 @@ import Brands from "../components/Brands";
 import ContentSection from "../components/ContentSection";
 import ServicesSection from "../components/ServicesSection";
 import FeaturedSection from "../components/FeaturedSection";
+import HomeSlider from "../components/HomeSlider";
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Brands />
       <ProductPosts />
       <ProductList />
+      <HomeSlider />
       <ContentSection />
       <ServicesSection />
       <FeaturedSection />
