@@ -3,6 +3,7 @@ import FeaturedPosts from "../components/FeaturedPosts";
 import ProductList from "../components/ProductList";
 import Brands from "../components/Brands";
 import ContentSection from "../components/ContentSection";
+import ServicesSection from "../components/ServicesSection";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <FeaturedPosts />
       <ProductList />
       <ContentSection />
+      <ServicesSection />
     </>
   );
 }
