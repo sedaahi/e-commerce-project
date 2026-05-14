@@ -1,20 +1,20 @@
-import featuredMain from "../assets/images/featured-posts/featured-main.png";
-import featuredWoman1 from "../assets/images/featured-posts/featured-woman-1.png";
-import featuredWoman2 from "../assets/images/featured-posts/featured-woman-2.png";
+import productMain from "../assets/images/product-posts/product-main.png";
+import productWoman1 from "../assets/images/product-posts/product-woman-1.png";
+import productWoman2 from "../assets/images/product-posts/product-woman-2.png";
 
 const cards = [
   {
     id: 1,
-    image: featuredMain,
+    image: productMain,
     large: true,
   },
   {
     id: 2,
-    image: featuredWoman1,
+    image: productWoman1,
   },
   {
     id: 3,
-    image: featuredWoman2,
+    image: productWoman2,
   },
 ];
 
@@ -62,7 +62,7 @@ function Card({ image, large }) {
   );
 }
 
-export default function FeaturedPosts() {
+export default function ProductPosts() {
   return (
     <section className="mx-auto mt-[80px] flex w-full max-w-[1440px] flex-col gap-[16px] px-4 md:flex-row md:justify-center md:gap-[16px]">
       <Card image={cards[0].image} large />
