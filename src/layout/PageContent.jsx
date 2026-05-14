@@ -3,7 +3,7 @@ import HomePage from "../pages/HomePage";
 
 export default function PageContent() {
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <Switch>
         <Route exact path="/" component={HomePage} />
       </Switch>
