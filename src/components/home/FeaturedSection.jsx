@@ -1,7 +1,7 @@
 import { FaRegHeart, FaShoppingCart, FaEye, FaStar } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { AlarmClock, ChartNoAxesCombined, Library } from "lucide-react";
-import { featuredPosts } from "../data/featuredPosts";
+import { featuredPosts } from "../../data/featuredPosts";
 
 function FeaturedSection() {
   return (

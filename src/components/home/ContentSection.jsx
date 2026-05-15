@@ -1,5 +1,5 @@
-import contentright from "../assets/images/content/content-right.png";
-import contentleft from "../assets/images/content/content-left.png";
+import contentright from "../../assets/images/content/content-right.png";
+import contentleft from "../../assets/images/content/content-left.png";
 
 function ContentSection() {
   return (

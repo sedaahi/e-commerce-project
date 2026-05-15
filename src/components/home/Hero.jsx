@@ -1,7 +1,9 @@
-import heroGirlDesktop from "../assets/images/hero/hero-girl-desktop.png";
-import heroGirlMobile from "../assets/images/hero/hero-girl-mobile.png";
+import heroGirlDesktop from "../../assets/images/hero/hero-girl-desktop.png";
+import heroGirlMobile from "../../assets/images/hero/hero-girl-mobile.png";
+import { useHistory } from "react-router-dom";
 
 export default function Hero() {
+  const history = useHistory();
   return (
     <section className="mx-3 flex max-w-[1292px] flex-col overflow-hidden rounded-[20px] bg-gradient-to-r from-[#96E9FB] to-[#ABECD6] px-8 pt-16 text-center md:mx-auto md:h-[619px] md:flex-row md:items-center md:justify-between md:px-[70px] md:pt-0 md:text-left overflow-visible">
       <div className="z-10 flex flex-col items-center md:items-start">
@@ -17,7 +19,9 @@ export default function Hero() {
           We know how large objects will act, but things on a small scale.
         </p>
 
-        <button className="rounded-[5px] bg-[#23A6F0] px-[40px] py-[15px] text-[24px] font-bold text-white md:text-[14px]">
+        <button className="rounded-[5px] bg-[#23A6F0] px-[40px] py-[15px] text-[24px] font-bold text-white md:text-[14px]"
+         onClick={() => history.push("/shop")}
+        >
           SHOP NOW
         </button>
       </div>

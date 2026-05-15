@@ -6,8 +6,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import sliderMan from "../assets/images/slider/slider-man.png";
-import sliderGirl from "../assets/images/slider/slider-girl.png";
+import sliderMan from "../../assets/images/slider/slider-man.png";
+import sliderGirl from "../../assets/images/slider/slider-girl.png";
 
 const slides = [
   {

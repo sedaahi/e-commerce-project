@@ -43,22 +43,22 @@ export default function Header() {
         <h1 className="text-[24px] font-bold text-[#252B42]">Bandage</h1>
 
         <nav className="hidden lg:flex items-center gap-[21px]">
-          <Link to="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="/" className="text-[14px] font-bold text-[#737373]">
             Home
           </Link>
-          <Link to="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="/shop" className="text-[14px] font-bold text-[#737373]">
             Shop
           </Link>
-          <Link to="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="/about" className="text-[14px] font-bold text-[#737373]">
             About
           </Link>
-          <Link to="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="/blog" className="text-[14px] font-bold text-[#737373]">
             Blog
           </Link>
-          <Link to="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="/contact" className="text-[14px] font-bold text-[#737373]">
             Contact
           </Link>
-          <Link to="#" className="text-[14px] font-bold text-[#737373]">
+          <Link to="/pages" className="text-[14px] font-bold text-[#737373]">
             Pages
           </Link>
         </nav>
@@ -84,13 +84,22 @@ export default function Header() {
         <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Home
         </Link>
-        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
+        <Link
+          to="/product"
+          className="text-[30px] leading-[45px] text-[#737373]"
+        >
           Product
         </Link>
-        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
+        <Link
+          to="/pricing"
+          className="text-[30px] leading-[45px] text-[#737373]"
+        >
           Pricing
         </Link>
-        <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
+        <Link
+          to="/contact"
+          className="text-[30px] leading-[45px] text-[#737373]"
+        >
           Contact
         </Link>
       </nav>

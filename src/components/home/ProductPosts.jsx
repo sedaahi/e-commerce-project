@@ -1,6 +1,6 @@
-import productMain from "../assets/images/product-posts/product-main.png";
-import productWoman1 from "../assets/images/product-posts/product-woman-1.png";
-import productWoman2 from "../assets/images/product-posts/product-woman-2.png";
+import productMain from "../../assets/images/product-posts/product-main.png";
+import productWoman1 from "../../assets/images/product-posts/product-woman-1.png";
+import productWoman2 from "../../assets/images/product-posts/product-woman-2.png";
 
 const cards = [
   {
@@ -48,7 +48,7 @@ function Card({ image, large }) {
           </h3>
         ) : (
           <h2
-            class="text-white text-[24px] mb-3 leading-[32px] tracking-tight 
+            className="text-white text-[24px] mb-3 leading-[32px] tracking-tight 
              max-w-[150px] md:max-w-none"
           >
             Top Product Of the Week
