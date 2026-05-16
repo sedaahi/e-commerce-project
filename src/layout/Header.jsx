@@ -8,9 +8,10 @@ import {
   Heart,
 } from "lucide-react";
 import { FaInstagram, FaYoutube, FaFacebook, FaTwitter } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Header() {
+  const history = useHistory();
   return (
     <header className="w-full">
       <div className="hidden lg:flex h-[46px] items-center justify-between bg-[#17213C] px-6 text-white">
@@ -40,7 +41,7 @@ export default function Header() {
       </div>
 
       <div className="flex items-center justify-between px-6 py-5 lg:px-[38px]">
-        <h1 className="text-[24px] font-bold text-[#252B42]">Bandage</h1>
+        <h1 className="text-[24px] font-bold text-[#252B42] cursor-pointer" onClick={()=>history.push("/")}>Bandage</h1>
 
         <nav className="hidden lg:flex items-center gap-[21px]">
           <Link to="/" className="text-[14px] font-bold text-[#737373]">
