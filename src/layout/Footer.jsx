@@ -7,32 +7,50 @@ import {
 } from "react-icons/fa";
 import { IoLocationOutline } from "react-icons/io5";
 import { FiSend } from "react-icons/fi";
+import { Link, useHistory } from "react-router-dom";
 
 const footerColumns = [
   {
     title: "Company Info",
-    links: ["About Us", "Carrier", "We are hiring", "Blog"],
+    links: [
+      { label: "About Us", path: "/about" },
+      { label: "Carrier", path: "/career" },
+      { label: "We are hiring", path: "/hiring" },
+      { label: "Blog", path: "/blog" },
+    ],
   },
   {
     title: "Legal",
-    links: ["About Us", "Carrier", "We are hiring", "Blog"],
+    links: [
+      { label: "About Us", path: "/about" },
+      { label: "Carrier", path: "/career" },
+      { label: "We are hiring", path: "/hiring" },
+      { label: "Blog", path: "/blog" },
+    ],
   },
   {
     title: "Features",
     links: [
-      "Business Marketing",
-      "User Analytic",
-      "Live Chat",
-      "Unlimited Support",
+      { label: "Business Marketing", path: "/business-marketing" },
+      { label: "User Analytic", path: "/user-analytic" },
+      { label: "Live Chat", path: "/live-chat" },
+      { label: "Unlimited Support", path: "/support" },
     ],
   },
   {
     title: "Resources",
-    links: ["IOS & Android", "Watch a Demo", "Customers", "API"],
+    links: [
+      { label: "IOS & Android", path: "/mobile-apps" },
+      { label: "Watch a Demo", path: "/demo" },
+      { label: "Customers", path: "/customers" },
+      { label: "API", path: "/api" },
+    ],
   },
 ];
 
 export default function Footer() {
+  const history = useHistory();
+
   return (
     <footer className="w-full overflow-x-hidden bg-white">
       <div className="bg-[#FAFAFA]">
@@ -47,7 +65,10 @@ export default function Footer() {
             </p>
           </div>
 
-          <button className="h-[52px] w-[160px] rounded-[5px] bg-[#23A6F0] text-[14px] font-bold text-white">
+          <button
+            className="h-[52px] w-[160px] rounded-[5px] bg-[#23A6F0] text-[14px] font-bold text-white"
+            onClick={() => history.push("/contact")}
+          >
             Contact Us
           </button>
         </div>
@@ -63,13 +84,13 @@ export default function Footer() {
 
               <div className="flex flex-col gap-[10px]">
                 {column.links.map((link) => (
-                  <a
-                    key={link}
-                    href="#"
+                  <Link
+                    key={link.label}
+                    to={link.path}
                     className="text-[14px] font-bold leading-[24px] text-[#737373]"
                   >
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 ))}
               </div>
             </div>
