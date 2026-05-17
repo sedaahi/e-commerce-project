@@ -41,7 +41,12 @@ export default function Header() {
       </div>
 
       <div className="flex items-center justify-between px-6 py-5 lg:px-[38px]">
-        <h1 className="text-[24px] font-bold text-[#252B42] cursor-pointer" onClick={()=>history.push("/")}>Bandage</h1>
+        <h1
+          className="text-[24px] font-bold text-[#252B42] cursor-pointer"
+          onClick={() => history.push("/")}
+        >
+          Bandage
+        </h1>
 
         <nav className="hidden lg:flex items-center gap-[21px]">
           <Link to="/" className="text-[14px] font-bold text-[#737373]">
@@ -59,8 +64,8 @@ export default function Header() {
           <Link to="/contact" className="text-[14px] font-bold text-[#737373]">
             Contact
           </Link>
-          <Link to="/pages" className="text-[14px] font-bold text-[#737373]">
-            Pages
+          <Link to="/team" className="text-[14px] font-bold text-[#737373]">
+            Team
           </Link>
         </nav>
 

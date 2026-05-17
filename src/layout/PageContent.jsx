@@ -5,6 +5,7 @@ import ShopPage from "../pages/ShopPage";
 import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
+import TeamPage from "../pages/TeamPage";
 
 export default function PageContent() {
   return (
@@ -14,8 +15,9 @@ export default function PageContent() {
         <Route path="/shop" component={ShopPage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/contact" component={ContactPage} />
-        <Route path="/product-detail" component={ProductDetailPage}/>
+        <Route path="/product-detail" component={ProductDetailPage} />
         <Route path="/contact" component={ContactPage} />
+        <Route path="/team" component={TeamPage} />
       </Switch>
     </main>
   );
