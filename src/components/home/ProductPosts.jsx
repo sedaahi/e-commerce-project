@@ -64,7 +64,7 @@ function Card({ image, large }) {
 
 export default function ProductPosts() {
   return (
-    <section className="mx-auto mt-[80px] flex w-full max-w-[1440px] flex-col gap-[16px] px-4 md:flex-row md:justify-center md:gap-[16px]">
+    <section className="mx-auto mt-[20px] flex w-full max-w-[1440px] flex-col gap-[16px] px-4 md:flex-row md:justify-center md:gap-[16px]">
       <Card image={cards[0].image} large />
 
       <div className="flex flex-col gap-[12px]">

@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Brands />
+      <Brands showContent={false} bgColor="bg-white"/>
       <ProductPosts />
       <ProductList />
       <HomeSlider />

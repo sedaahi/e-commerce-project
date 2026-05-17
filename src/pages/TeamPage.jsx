@@ -7,7 +7,7 @@ export default function TeamPage() {
     <main>
       <TeamHero />
       <TeamImageGrid />
-      <TeamMembers />
+      <TeamMembers  showTrial={false}/>
     </main>
   );
 }

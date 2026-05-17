@@ -1,7 +1,19 @@
-export default function AboutPage() {
+import AboutCtaSection from "../components/about/AboutCtaSection";
+import AboutHero from "../components/about/AboutHero";
+import AboutMediaSection from "../components/about/AboutMediaSection";
+import TeamMembers from "../components/team/TeamMembers";
+import Brands from "../layout/Brands";
+
+function AboutPage() {
   return (
-    <div className="flex h-[400px] items-center justify-center">
-      <h1 className="text-[40px] font-bold">About Page</h1>
-    </div>
+    <>
+      <AboutHero />
+      <AboutMediaSection />
+      <TeamMembers showTrial={true}/>
+      <Brands showContent={true} bgColor="bg-[#fafafa]"/>
+      <AboutCtaSection />
+    </>
   );
 }
+
+export default AboutPage;

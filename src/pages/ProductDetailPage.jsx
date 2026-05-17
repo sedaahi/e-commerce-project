@@ -27,7 +27,7 @@ export default function ProductDetailPage() {
           <ProductDescription />
           <BestsellerProducts />
           
-          <Brands />
+          <Brands showContent={false} bgColor="bg-[#fafafa]"/>
           <hr/>
       </section>
     </main>

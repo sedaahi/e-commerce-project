@@ -11,7 +11,7 @@ export default function ShopPage() {
       <ShopCategoryList />
       <ShopFilterRow />
       <ShopProductList />
-      <Brands />
+      <Brands showContent={false} bgColor="bg-[#fafafa]" />
       <hr/>
     </section>
   );
