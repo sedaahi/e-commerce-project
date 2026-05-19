@@ -4,15 +4,18 @@ import { useHistory } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { api } from "../../api/api";
+import { api } from "../../services/api";
 import FormInput from "./FormInput";
 import { signup } from "../../services/authService";
-import { getRoles } from "../../services/roleService";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRolesIfNeeded } from "../../store/actions/clientActions";
 
 function SignupForm() {
   const history = useHistory();
 
-  const [roles, setRoles] = useState([]);
+  const dispatch = useDispatch();
+  const roles = useSelector((state) => state.client.roles);
+
   const [submitError, setSubmitError] = useState("");
   const [isSubmittingForm, setIsSubmittingForm] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -38,40 +41,17 @@ function SignupForm() {
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
   const isStoreSelected = selectedRoleId === "2";
-  // const passwordChecks = [
-  //   {
-  //     label: "Uppercase letter",
-  //     valid: /[A-Z]/.test(password || ""),
-  //   },
-  //   {
-  //     label: "Lowercase letter",
-  //     valid: /[a-z]/.test(password || ""),
-  //   },
-  //   {
-  //     label: "Number",
-  //     valid: /\d/.test(password || ""),
-  //   },
-  //   {
-  //     label: "Special character",
-  //     valid: /[^A-Za-z\d]/.test(password || ""),
-  //   },
-  //   {
-  //     label: "Minimum 8 characters",
-  //     valid: (password || "").length >= 8,
-  //   },
-  // ];
+
   useEffect(() => {
-    api;
-    getRoles()
-      .then((res) => {
-        setRoles(res.data);
+    dispatch(fetchRolesIfNeeded())
+      .then(() => {
         setValue("role_id", "3");
       })
       .catch(() => {
         setSubmitError("Roles could not be loaded.");
         toast.error("Roles could not be loaded.");
       });
-  }, [setValue]);
+  }, [dispatch, setValue]);
 
   useEffect(() => {
     if (confirmPassword) {
