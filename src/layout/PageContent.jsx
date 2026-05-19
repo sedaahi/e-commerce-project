@@ -6,8 +6,8 @@ import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
 import TeamPage from "../pages/TeamPage";
-import SignupPage from "../pages/ SignupPage";
-
+import SignupPage from "../pages/SignupPage";
+import LoginPage from "../pages/LoginPage";
 export default function PageContent() {
   return (
     <main className="w-full overflow-x-hidden">
@@ -20,6 +20,7 @@ export default function PageContent() {
         <Route path="/contact" component={ContactPage} />
         <Route path="/team" component={TeamPage} />
         <Route path="/signup" component={SignupPage} />
+        <Route path="/login" component={LoginPage} />
       </Switch>
     </main>
   );

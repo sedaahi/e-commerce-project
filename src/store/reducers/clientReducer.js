@@ -5,8 +5,10 @@ import {
   SET_USER,
 } from "../actions/actionTypes";
 
+const savedUser = localStorage.getItem("user");
+
 const initialState = {
-  user: {},
+  user: savedUser ? JSON.parse(savedUser) : {},
   addressList: [],
   creditCards: [],
   roles: [],

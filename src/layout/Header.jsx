@@ -9,9 +9,28 @@ import {
 } from "lucide-react";
 import { FaInstagram, FaYoutube, FaFacebook, FaTwitter } from "react-icons/fa";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import md5 from "blueimp-md5";
+
+import { logoutUser } from "../store/actions/clientActions";
 
 export default function Header() {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.client.user);
+
+  const gravatarUrl = user?.email
+    ? `https://www.gravatar.com/avatar/${md5(
+        user.email.trim().toLowerCase()
+      )}?d=identicon`
+    : "";
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    history.push("/");
+  };
+
   return (
     <header className="w-full">
       <div className="hidden lg:flex h-[46px] items-center justify-between bg-[#17213C] px-6 text-white">
@@ -70,10 +89,35 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-4 text-[#23A6F0]">
-          <div className="flex items-center gap-1 text-[14px] font-bold">
-            <User size={16} />
-            <span>Login / Register</span>
-          </div>
+          {user?.email ? (
+            <div className="flex items-center gap-3 text-[14px] font-bold">
+              <div className="flex items-center gap-2">
+                <img
+                  src={gravatarUrl}
+                  alt={user.email}
+                  className="h-8 w-8 rounded-full"
+                />
+                <span>{user.name || user.email}</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="text-[13px] font-bold text-[#737373]"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="flex items-center gap-1 text-[14px] font-bold"
+            >
+              <User size={16} />
+              <span>Login / Register</span>
+            </Link>
+          )}
+
           <Search size={16} />
           <ShoppingCart size={16} />
           <Heart size={16} />

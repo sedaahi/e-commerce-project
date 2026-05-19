@@ -190,16 +190,6 @@ function SignupForm() {
               },
             })}
           />
-          {/* <div className="mt-2 flex flex-col gap-1 text-sm">
-            {password && passwordChecks.map((item) => (
-              <p
-                key={item.label}
-                className={item.valid ? "text-green-600" : "text-red-500"}
-              >
-                {item.valid ? "✔" : "✖"} {item.label}
-              </p>
-            ))}
-          </div> */}
           <FormInput
             label="Confirm Password"
             type={showConfirmPassword ? "text" : "password"}
