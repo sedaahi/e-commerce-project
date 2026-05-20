@@ -7,7 +7,9 @@ import {
   SET_PRODUCT_LIST,
   SET_TOTAL,
 } from "./actionTypes";
+
 import { getCategories } from "../../services/categoryService";
+import { getProducts } from "../../services/productService";
 
 export const setCategories = (categories) => ({
   type: SET_CATEGORIES,
@@ -55,6 +57,24 @@ export const fetchCategoriesIfNeeded = () => {
       dispatch(setCategories(response.data));
     } catch (error) {
       console.error("Categories could not be fetched:", error);
+      throw error;
+    }
+  };
+};
+
+export const fetchProducts = () => {
+  return async (dispatch) => {
+    dispatch(setFetchState("FETCHING"));
+
+    try {
+      const response = await getProducts();
+
+      dispatch(setProductList(response.data.products));
+      dispatch(setTotal(response.data.total));
+      dispatch(setFetchState("FETCHED"));
+    } catch (error) {
+      dispatch(setFetchState("FAILED"));
+      console.error("Products could not be fetched:", error);
       throw error;
     }
   };

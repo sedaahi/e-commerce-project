@@ -2,6 +2,7 @@ import shopProductImage from "../../assets/images/shop/shop-product.png";
 
 export default function ShopProductCard({ product }) {
   const productImage = product.images?.[0]?.url || shopProductImage;
+  const oldPrice = product.oldPrice || product.price * 1.2;
 
   return (
     <div className="flex w-full flex-col items-center md:w-[239px]">
@@ -16,13 +17,13 @@ export default function ShopProductCard({ product }) {
           {product.name}
         </h3>
 
-        <p className="mt-[10px] text-center text-[14px] font-bold leading-[24px] text-[#737373]">
+        <p className="mt-[10px] line-clamp-2 text-center text-[14px] font-bold leading-[24px] text-[#737373]">
           {product.description}
         </p>
 
         <div className="mt-[5px] flex items-center gap-[5px]">
           <span className="text-[16px] font-bold leading-[24px] text-[#BDBDBD]">
-            ${product.oldPrice.toFixed(2)}
+            ${oldPrice.toFixed(2)}
           </span>
 
           <span className="text-[16px] font-bold leading-[24px] text-[#23856D]">
