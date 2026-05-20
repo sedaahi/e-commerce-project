@@ -4,6 +4,10 @@ export const signup = (data) => {
   return api.post("/signup", data);
 };
 
-export const login = (loginData) => {
-  return api.post("/login", loginData);
+export const login = (data) => {
+  return api.post("/login", data);
+};
+
+export const verify = () => {
+  return api.get("/verify");
 };

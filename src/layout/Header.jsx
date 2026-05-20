@@ -10,7 +10,7 @@ import {
 import { FaInstagram, FaYoutube, FaFacebook, FaTwitter } from "react-icons/fa";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import md5 from "blueimp-md5";
+import Gravatar from "react-gravatar";
 
 import { logoutUser } from "../store/actions/clientActions";
 
@@ -20,12 +20,6 @@ export default function Header() {
 
   const user = useSelector((state) => state.client.user);
 
-  const gravatarUrl = user?.email
-    ? `https://www.gravatar.com/avatar/${md5(
-        user.email.trim().toLowerCase()
-      )}?d=identicon`
-    : "";
-
   const handleLogout = () => {
     dispatch(logoutUser());
     history.push("/");
@@ -33,6 +27,7 @@ export default function Header() {
 
   return (
     <header className="w-full">
+      {/* Üst Bar (Desktop) */}
       <div className="hidden lg:flex h-[46px] items-center justify-between bg-[#17213C] px-6 text-white">
         <div className="flex items-center gap-6 text-[14px] font-bold">
           <div className="flex items-center gap-1">
@@ -59,6 +54,7 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Ana Navigasyon Barı */}
       <div className="flex items-center justify-between px-6 py-5 lg:px-[38px]">
         <h1
           className="text-[24px] font-bold text-[#252B42] cursor-pointer"
@@ -88,13 +84,16 @@ export default function Header() {
           </Link>
         </nav>
 
+        {/* Kullanıcı Alanı ve Arama/Sepet İkonları */}
         <div className="hidden lg:flex items-center gap-4 text-[#23A6F0]">
           {user?.email ? (
             <div className="flex items-center gap-3 text-[14px] font-bold">
-              <div className="flex items-center gap-2">
-                <img
-                  src={gravatarUrl}
-                  alt={user.email}
+              <div className="flex items-center gap-2 text-[#252B42]">
+                <Gravatar
+                  email={user.email}
+                  size={32}
+                  rating="pg"
+                  default="identicon"
                   className="h-8 w-8 rounded-full"
                 />
                 <span>{user.name || user.email}</span>
@@ -123,13 +122,37 @@ export default function Header() {
           <Heart size={16} />
         </div>
 
+        {/* Mobil Menü Butonları */}
         <div className="flex items-center gap-5 lg:hidden">
+          {user?.email ? (
+            <button
+              type="button"
+              onClick={handleLogout}
+              aria-label="Logout"
+              className="flex items-center"
+            >
+              <Gravatar
+                email={user.email}
+                size={28}
+                rating="pg"
+                default="identicon"
+                className="h-7 w-7 rounded-full"
+              />
+              
+            </button>
+          ) : (
+            <Link to="/login" aria-label="Login">
+              <User size={24} className="text-[#252B42]" />
+            </Link>
+          )}
+
           <Search size={24} className="text-[#252B42]" />
           <ShoppingCart size={24} className="text-[#252B42]" />
           <Menu size={24} className="text-[#252B42]" />
         </div>
       </div>
 
+      {/* Mobil Navigasyon Linkleri */}
       <nav className="flex flex-col items-center gap-[30px] py-10 lg:hidden">
         <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Home
