@@ -7,6 +7,7 @@ import {
   SET_PRODUCT_LIST,
   SET_TOTAL,
 } from "./actionTypes";
+import { getCategories } from "../../services/categoryService";
 
 export const setCategories = (categories) => ({
   type: SET_CATEGORIES,
@@ -42,3 +43,19 @@ export const setFilter = (filter) => ({
   type: SET_FILTER,
   payload: filter,
 });
+
+export const fetchCategoriesIfNeeded = () => {
+  return async (dispatch, getState) => {
+    const categories = getState().product.categories;
+
+    if (categories.length > 0) return;
+
+    try {
+      const response = await getCategories();
+      dispatch(setCategories(response.data));
+    } catch (error) {
+      console.error("Categories could not be fetched:", error);
+      throw error;
+    }
+  };
+};
