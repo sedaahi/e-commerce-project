@@ -13,8 +13,8 @@ export default function HomePage() {
     <>
       <Hero />
       <Brands showContent={false} bgColor="bg-white"/>
-      <TopCategories />
       <ProductPosts />
+      <TopCategories />
       <ProductList />
       <HomeSlider />
       <ContentSection />

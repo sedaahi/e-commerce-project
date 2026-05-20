@@ -41,9 +41,11 @@ export default function ShopProductList() {
           ))}
         </div>
 
-        <div className="hidden flex-wrap justify-center gap-x-[30px] gap-y-[48px] md:flex">
+        <div className="hidden flex-wrap justify-center gap-x-[20px] gap-y-[48px] md:flex">
           {products.map((product) => (
-            <ShopProductCard key={product.id} product={product} />
+            <div key={product.id} className="w-[18%] min-w-[180px]">
+              <ShopProductCard product={product} />
+            </div>
           ))}
         </div>
 

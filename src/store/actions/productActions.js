@@ -5,6 +5,7 @@ import {
   SET_LIMIT,
   SET_OFFSET,
   SET_PRODUCT_LIST,
+  SET_SORT,
   SET_TOTAL,
 } from "./actionTypes";
 
@@ -46,6 +47,11 @@ export const setFilter = (filter) => ({
   payload: filter,
 });
 
+export const setSort = (sort) => ({
+  type: SET_SORT,
+  payload: sort,
+});
+
 export const fetchCategoriesIfNeeded = () => {
   return async (dispatch, getState) => {
     const categories = getState().product.categories;
@@ -62,12 +68,12 @@ export const fetchCategoriesIfNeeded = () => {
   };
 };
 
-export const fetchProducts = () => {
+export const fetchProducts = (params = {}) => {
   return async (dispatch) => {
     dispatch(setFetchState("FETCHING"));
 
     try {
-      const response = await getProducts();
+      const response = await getProducts(params);
 
       dispatch(setProductList(response.data.products));
       dispatch(setTotal(response.data.total));
