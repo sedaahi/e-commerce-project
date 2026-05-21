@@ -8,8 +8,6 @@ export default function ShopProductList() {
   const products = useSelector((state) => state.product.productList);
   const fetchState = useSelector((state) => state.product.fetchState);
 
-  const mobileProducts = products.slice(0, 4);
-
   if (fetchState === "FETCHING") {
     return (
       <div className="w-full bg-white">
@@ -31,19 +29,26 @@ export default function ShopProductList() {
       </div>
     );
   }
-
+  if (products.length === 0) {
+    return (
+      <div className="w-full bg-white">
+        <div className="mx-auto flex min-h-[240px] items-center justify-center px-[43px] py-[48px] md:max-w-[1124px] md:px-0">
+          <p className="text-center text-[14px] font-bold text-[#737373]">
+            No products found.
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="w-full bg-white">
       <div className="mx-auto px-[43px] pb-[48px] pt-[32px] md:max-w-[1124px] md:px-0 md:pb-[48px] md:pt-[48px]">
-        <div className="flex flex-col items-center gap-[30px] md:hidden">
-          {mobileProducts.map((product) => (
-            <ShopProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        <div className="hidden flex-wrap justify-center gap-x-[20px] gap-y-[48px] md:flex">
+        <div className="flex flex-col items-center gap-[30px] md:flex-row md:flex-wrap md:justify-center md:gap-x-[20px] md:gap-y-[48px]">
           {products.map((product) => (
-            <div key={product.id} className="w-[18%] min-w-[180px]">
+            <div
+              key={product.id}
+              className="w-full md:w-[18%] md:min-w-[180px]"
+            >
               <ShopProductCard product={product} />
             </div>
           ))}

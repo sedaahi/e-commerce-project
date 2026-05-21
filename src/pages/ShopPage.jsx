@@ -12,12 +12,12 @@ import { fetchProducts,setOffset } from "../store/actions/productActions";
 
 export default function ShopPage() {
   const dispatch = useDispatch();
-  const { categoryId } = useParams();
+  const { categoryId } = useParams();   // url'den catId al
 
-  const filter = useSelector((state) => state.product.filter);
-  const sort = useSelector((state) => state.product.sort);
-  const limit = useSelector((state) => state.product.limit);
-  const offset = useSelector((state) => state.product.offset);
+  const filter = useSelector((state) => state.product.filter); //inputtan gelen arama
+  const sort = useSelector((state) => state.product.sort);     //selectten gelen sıralama
+  const limit = useSelector((state) => state.product.limit);   //sayfa başına ürün sayısı
+  const offset = useSelector((state) => state.product.offset); //kaç ürün geçileceği   
 
   useEffect(() => {
     const params = {

@@ -30,18 +30,18 @@ export default function Header() {
   const categories = useSelector((state) => state.product.categories);
 
   const womenCategories = categories.filter((category) =>
-    category.code.startsWith("k:")
+    category.code.startsWith("k:"),
   );
 
   const menCategories = categories.filter((category) =>
-    category.code.startsWith("e:")
+    category.code.startsWith("e:"),
   );
 
   const handleLogout = () => {
     dispatch(logoutUser());
     history.push("/");
   };
-
+  console.log(categories);
   return (
     <header className="w-full">
       <div className="hidden lg:flex h-[46px] items-center justify-between bg-[#17213C] px-6 text-white">
