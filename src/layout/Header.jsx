@@ -28,6 +28,9 @@ export default function Header() {
 
   const user = useSelector((state) => state.client.user);
   const categories = useSelector((state) => state.product.categories);
+  const cart = useSelector((state) => state.shoppingCart.cart);
+
+  const cartTotalCount = cart.reduce((total, item) => total + item.count, 0);
 
   const womenCategories = categories.filter((category) =>
     category.code.startsWith("k:"),
@@ -36,15 +39,19 @@ export default function Header() {
   const menCategories = categories.filter((category) =>
     category.code.startsWith("e:"),
   );
-
+  const cartTotalPrice = cart.reduce(
+    (total, item) => total + item.product.price * item.count,
+    0,
+  );
   const handleLogout = () => {
     dispatch(logoutUser());
     history.push("/");
   };
-  console.log(categories);
+
   return (
     <header className="w-full">
-      <div className="hidden lg:flex h-[46px] items-center justify-between bg-[#17213C] px-6 text-white">
+      {/* Desktop Top Bar */}
+      <div className="hidden h-[46px] items-center justify-between bg-[#17213C] px-6 text-white lg:flex">
         <div className="flex items-center gap-6 text-[14px] font-bold">
           <div className="flex items-center gap-1">
             <Phone size={16} />
@@ -70,15 +77,17 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Main Header */}
       <div className="flex items-center justify-between px-6 py-5 lg:px-[38px]">
         <h1
-          className="text-[24px] font-bold text-[#252B42] cursor-pointer"
+          className="cursor-pointer text-[24px] font-bold text-[#252B42]"
           onClick={() => history.push("/")}
         >
           Bandage
         </h1>
 
-        <nav className="hidden lg:flex items-center gap-[21px]">
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-[21px] lg:flex">
           <Link to="/" className="text-[14px] font-bold text-[#737373]">
             Home
           </Link>
@@ -126,18 +135,22 @@ export default function Header() {
           <Link to="/about" className="text-[14px] font-bold text-[#737373]">
             About
           </Link>
+
           <Link to="/blog" className="text-[14px] font-bold text-[#737373]">
             Blog
           </Link>
+
           <Link to="/contact" className="text-[14px] font-bold text-[#737373]">
             Contact
           </Link>
+
           <Link to="/team" className="text-[14px] font-bold text-[#737373]">
             Team
           </Link>
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4 text-[#23A6F0]">
+        {/* Desktop User / Icons */}
+        <div className="hidden items-center gap-4 text-[#23A6F0] lg:flex">
           {user?.email ? (
             <div className="flex items-center gap-3 text-[14px] font-bold">
               <div className="flex items-center gap-2 text-[#252B42]">
@@ -170,10 +183,82 @@ export default function Header() {
           )}
 
           <Search size={16} />
-          <ShoppingCart size={16} />
+
+          {/* Desktop Cart Dropdown */}
+          <div className="group relative">
+            <div className="relative cursor-pointer">
+              <ShoppingCart size={16} />
+
+              {cartTotalCount > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#E77C40] text-[10px] font-bold text-white">
+                  {cartTotalCount}
+                </span>
+              )}
+            </div>
+
+            <div className="invisible absolute right-0 top-[28px] z-50 w-[280px] rounded-[8px] bg-white p-4 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
+              <h4 className="mb-3 text-[14px] font-bold text-[#252B42]">
+                Cart Items ({cartTotalCount})
+              </h4>
+
+              {cart.length === 0 ? (
+                <p className="text-[13px] text-[#737373]">
+                  Your cart is empty.
+                </p>
+              ) : (
+                <>
+                  <div className="flex max-h-[240px] flex-col gap-3 overflow-y-auto">
+                    {cart.map((item) => (
+                      <div
+                        key={item.product.id}
+                        className="flex gap-3 border-b border-[#ECECEC] pb-2"
+                      >
+                        <img
+                          src={item.product.images?.[0]?.url}
+                          alt={item.product.name}
+                          className="h-12 w-12 rounded-[4px] object-cover"
+                        />
+
+                        <div className="flex-1">
+                          <p className="line-clamp-1 text-[13px] font-bold text-[#252B42]">
+                            {item.product.name}
+                          </p>
+
+                          <div className="mt-1 flex justify-between text-[12px] text-[#737373]">
+                            <span>Qty: {item.count}</span>
+
+                            <span>
+                              ${(item.product.price * item.count).toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-3 flex justify-between border-t border-[#ECECEC] pt-3">
+                    <span className="text-[13px] font-bold text-[#252B42]">
+                      Subtotal
+                    </span>
+
+                    <span className="text-[13px] font-bold text-[#23A6F0]">
+                      ${cartTotalPrice.toFixed(2)}
+                    </span>
+                  </div>
+                  <Link
+                    to="/cart"
+                    className="mt-4 flex h-[40px] items-center justify-center rounded-[5px] bg-[#23A6F0] text-[13px] font-bold text-white"
+                  >
+                    View Cart
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+
           <Heart size={16} />
         </div>
 
+        {/* Mobile User / Icons */}
         <div className="flex items-center gap-5 lg:hidden">
           {user?.email ? (
             <button
@@ -197,30 +282,46 @@ export default function Header() {
           )}
 
           <Search size={24} className="text-[#252B42]" />
-          <ShoppingCart size={24} className="text-[#252B42]" />
+
+          {/* Mobile Cart Icon */}
+          <div className="relative">
+            <ShoppingCart size={24} className="text-[#252B42]" />
+
+            {cartTotalCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#E77C40] text-[10px] font-bold text-white">
+                {cartTotalCount}
+              </span>
+            )}
+          </div>
+
           <Menu size={24} className="text-[#252B42]" />
         </div>
       </div>
 
+      {/* Mobile Navigation */}
       <nav className="flex flex-col items-center gap-[30px] py-10 lg:hidden">
         <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Home
         </Link>
+
         <Link to="/shop" className="text-[30px] leading-[45px] text-[#737373]">
           Shop
         </Link>
+
         <Link
           to="/product"
           className="text-[30px] leading-[45px] text-[#737373]"
         >
           Product
         </Link>
+
         <Link
           to="/pricing"
           className="text-[30px] leading-[45px] text-[#737373]"
         >
           Pricing
         </Link>
+
         <Link
           to="/contact"
           className="text-[30px] leading-[45px] text-[#737373]"
