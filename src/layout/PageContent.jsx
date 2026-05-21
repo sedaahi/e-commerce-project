@@ -15,7 +15,14 @@ export default function PageContent() {
         <Route exact path="/" component={HomePage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
-        <Route path="/shop/:gender?/:categoryName?/:categoryId?" component={ShopPage} />
+        <Route
+          path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"
+          component={ProductDetailPage}
+        />
+        <Route
+          path="/shop/:gender?/:categoryName?/:categoryId?"
+          component={ShopPage}
+        />
         <Route path="/product-detail" component={ProductDetailPage} />
         <Route path="/team" component={TeamPage} />
         <Route path="/signup" component={SignupPage} />

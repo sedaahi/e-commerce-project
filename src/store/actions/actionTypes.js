@@ -13,6 +13,7 @@ export const SET_LIMIT = "SET_LIMIT";
 export const SET_OFFSET = "SET_OFFSET";
 export const SET_FILTER = "SET_FILTER";
 export const SET_SORT = "SET_SORT";
+export const SET_SELECTED_PRODUCT = "SET_SELECTED_PRODUCT";
 
 // Shopping Cart
 export const SET_CART = "SET_CART";

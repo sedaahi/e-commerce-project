@@ -7,6 +7,7 @@ import {
   SET_PRODUCT_LIST,
   SET_SORT,
   SET_TOTAL,
+  SET_SELECTED_PRODUCT,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   filter: "",
   sort: "",
   fetchState: "NOT_FETCHED",
+  selectedProduct: null,
 };
 
 export default function productReducer(state = initialState, action) {
@@ -45,6 +47,8 @@ export default function productReducer(state = initialState, action) {
 
     case SET_SORT:
       return { ...state, sort: action.payload };
+    case SET_SELECTED_PRODUCT:
+      return { ...state, selectedProduct: action.payload };
 
     default:
       return state;
