@@ -1,11 +1,12 @@
-import {
-  SET_ADDRESS,
-  SET_CART,
-  SET_PAYMENT,
-} from "../actions/actionTypes";
+import { SET_ADDRESS, SET_CART, SET_PAYMENT } from "../actions/actionTypes";
+
+const getCartFromLocalStorage = () => {
+  const cart = localStorage.getItem("cart");
+  return cart ? JSON.parse(cart) : [];
+};
 
 const initialState = {
-  cart: [],
+  cart: getCartFromLocalStorage(),
   payment: {},
   address: {},
 };

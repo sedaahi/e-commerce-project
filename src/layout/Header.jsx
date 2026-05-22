@@ -186,7 +186,10 @@ export default function Header() {
 
           {/* Desktop Cart Dropdown */}
           <div className="group relative">
-            <div className="relative cursor-pointer">
+            <div
+              className="relative cursor-pointer"
+              onClick={() => history.push("/cart")}
+            >
               <ShoppingCart size={16} />
 
               {cartTotalCount > 0 && (
@@ -284,7 +287,7 @@ export default function Header() {
           <Search size={24} className="text-[#252B42]" />
 
           {/* Mobile Cart Icon */}
-          <div className="relative">
+          <div className="relative" onClick={() => history.push("/cart")}>
             <ShoppingCart size={24} className="text-[#252B42]" />
 
             {cartTotalCount > 0 && (

@@ -8,6 +8,7 @@ import ProductDetailPage from "../pages/ProductDetailPage";
 import TeamPage from "../pages/TeamPage";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
+import ShoppingCartPage from "../pages/ShoppingCartPage";
 export default function PageContent() {
   return (
     <main className="w-full overflow-x-hidden">
@@ -27,6 +28,8 @@ export default function PageContent() {
         <Route path="/team" component={TeamPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/cart" component={ShoppingCartPage} />
+        
       </Switch>
     </main>
   );
