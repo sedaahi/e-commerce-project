@@ -19,19 +19,21 @@ export default function CartItem({ item }) {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-start gap-4">
           <button
-  type="button"
-  onClick={() => dispatch(toggleCartItem(product.id))}
-  className={`mt-8 flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] border transition ${
-    item.checked
-      ? "border-[#23A6F0] bg-[#23A6F0]"
-      : "border-[#BDBDBD] bg-[#FFFDF8]"
-  }`}
-  aria-label="Select cart item"
->
-  {item.checked && (
-    <span className="text-[12px] font-bold leading-none text-white">✓</span>
-  )}
-</button>
+            type="button"
+            onClick={() => dispatch(toggleCartItem(product.id))}
+            className={`mt-8 flex h-5 w-5 shrink-0 items-center justify-center rounded-[4px] border transition ${
+              item.checked
+                ? "border-[#23A6F0] bg-[#23A6F0]"
+                : "border-[#BDBDBD] bg-[#FFFDF8]"
+            }`}
+            aria-label="Select cart item"
+          >
+            {item.checked && (
+              <span className="text-[12px] font-bold leading-none text-white">
+                ✓
+              </span>
+            )}
+          </button>
           <img
             src={productImage}
             alt={product.name}
@@ -70,7 +72,12 @@ export default function CartItem({ item }) {
             <button
               type="button"
               onClick={() => dispatch(increaseCartItem(product.id))}
-              className="flex h-[36px] w-[36px] items-center justify-center text-[#23A6F0]"
+              disabled={item.count >= product.stock}
+              className={`flex h-[36px] w-[36px] items-center justify-center ${
+                item.count >= product.stock
+                  ? "cursor-not-allowed text-[#BDBDBD]"
+                  : "text-[#23A6F0]"
+              }`}
             >
               <Plus size={16} />
             </button>

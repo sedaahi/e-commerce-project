@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { useSelector } from "react-redux";
 
 import CartItem from "../components/cart/CartItem";
-import CartTotal from "../components/cart/CartTotal";
+import OrderSummary from "../components/cart/OrderSummary";
 
 export default function ShoppingCartPage() {
   const cart = useSelector((state) => state.shoppingCart.cart);
@@ -46,7 +46,7 @@ export default function ShoppingCartPage() {
               ))}
             </div>
 
-            <CartTotal />
+            <OrderSummary />
           </div>
         )}
       </div>

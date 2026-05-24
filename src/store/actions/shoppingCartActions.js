@@ -53,17 +53,23 @@ export const increaseCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
 
-    const updatedCart = cart.map((item) =>
-      item.product.id === productId
-        ? { ...item, count: item.count + 1 }
-        : item
-    );
+    const updatedCart = cart.map((item) => {
+      if (item.product.id !== productId) return item;
+
+      if (item.count >= item.product.stock) { // stocktan daha fazla eklememe kontrolü
+        return item;
+      }
+
+      return {
+        ...item,
+        count: item.count + 1,
+      };
+    });
 
     saveCartToLocalStorage(updatedCart);
     dispatch(setCart(updatedCart));
   };
 };
-
 export const decreaseCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
