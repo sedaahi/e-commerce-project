@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function OrderSummary() {
   const cart = useSelector((state) => state.shoppingCart.cart);
@@ -24,7 +25,8 @@ export default function OrderSummary() {
 
   return (
     <aside className="w-full rounded-[8px] bg-white p-5 shadow-sm lg:w-[320px]">
-      <button
+      <Link
+        to={totalCount === 0 ? "#" : "/checkout"}
         type="button"
         disabled={totalCount === 0}
         className={`mb-4 flex h-[44px] w-full items-center justify-center rounded-[5px] text-[14px] font-bold text-white ${
@@ -32,7 +34,7 @@ export default function OrderSummary() {
         }`}
       >
         Create Order
-      </button>
+      </Link>
 
       <div className="rounded-[6px] border border-[#E8E8E8] p-5">
         <h2 className="text-[22px] font-normal text-[#252B42]">
@@ -84,15 +86,14 @@ export default function OrderSummary() {
         </div>
       </div>
 
-      <button
-        type="button"
-        disabled={totalCount === 0}
-        className={`mt-6 flex h-[44px] w-full items-center justify-center rounded-[5px] text-[14px] font-bold text-white ${
-          totalCount === 0 ? "bg-[#BDBDBD]" : "bg-[#23A6F0]"
+      <Link
+        to={totalCount === 0 ? "#" : "/checkout"}
+        className={`mb-4 flex h-[44px] w-full items-center justify-center rounded-[5px] text-[14px] font-bold text-white ${
+          totalCount === 0 ? "pointer-events-none bg-[#BDBDBD]" : "bg-[#23A6F0]"
         }`}
       >
         Create Order
-      </button>
+      </Link>
     </aside>
   );
 }

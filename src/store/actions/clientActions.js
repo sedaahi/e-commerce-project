@@ -1,7 +1,13 @@
-import { SET_LANGUAGE, SET_ROLES, SET_THEME, SET_USER } from "./actionTypes";
+import { SET_ROLES, SET_USER, SET_ADDRESS_LIST, SET_SELECTED_ADDRESS, SET_SELECTED_BILLING_ADDRESS } from "./actionTypes";
 
 import { getRoles } from "../../services/roleService";
 import { login, verify } from "../../services/authService";
+import {
+  addAddress,
+  deleteAddress,
+  getAddresses,
+  updateAddress,
+} from "../../services/addressService";
 import { clearAuthToken, setAuthToken } from "../../services/api";
 import { toast } from "react-toastify";
 
@@ -15,15 +21,15 @@ export const setRoles = (roles) => ({
   payload: roles,
 });
 
-export const setTheme = (theme) => ({
-  type: SET_THEME,
-  payload: theme,
-});
+// export const setTheme = (theme) => ({
+//   type: SET_THEME,
+//   payload: theme,
+// });
 
-export const setLanguage = (language) => ({
-  type: SET_LANGUAGE,
-  payload: language,
-});
+// export const setLanguage = (language) => ({
+//   type: SET_LANGUAGE,
+//   payload: language,
+// });
 
 export const fetchRolesIfNeeded = () => {
   return async (dispatch, getState) => {
@@ -107,3 +113,66 @@ export const logoutUser = () => {
     toast.success("Logged out successfully.");
   };
 };
+
+export const setAddressList = (addressList) => ({
+  type: SET_ADDRESS_LIST,
+  payload: addressList,
+});
+
+export const fetchAddresses = () => {
+  return async (dispatch) => {
+    try {
+      const response = await getAddresses();
+      dispatch(setAddressList(response.data));
+    } catch (error) {
+      console.error("Addresses could not be fetched:", error);
+      throw error;
+    }
+  };
+};
+
+export const createAddress = (addressData) => {
+  return async (dispatch) => {
+    try {
+      await addAddress(addressData);
+      dispatch(fetchAddresses());
+    } catch (error) {
+      console.error("Address could not be created:", error);
+      throw error;
+    }
+  };
+};
+
+export const editAddress = (addressData) => {
+  return async (dispatch) => {
+    try {
+      await updateAddress(addressData);
+      dispatch(fetchAddresses());
+    } catch (error) {
+      console.error("Address could not be updated:", error);
+      throw error;
+    }
+  };
+};
+
+export const removeAddress = (addressId) => {
+  return async (dispatch) => {
+    try {
+      await deleteAddress(addressId);
+      dispatch(fetchAddresses());
+    } catch (error) {
+      console.error("Address could not be deleted:", error);
+      throw error;
+    }
+  };
+};
+
+export const setSelectedAddress = (addressId) => ({
+  type: SET_SELECTED_ADDRESS,
+  payload: addressId,
+});
+
+export const setSelectedBillingAddress = (addressId) => ({
+  type: SET_SELECTED_BILLING_ADDRESS,
+  payload: addressId,
+});

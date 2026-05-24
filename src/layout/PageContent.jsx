@@ -9,6 +9,9 @@ import TeamPage from "../pages/TeamPage";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import ShoppingCartPage from "../pages/ShoppingCartPage";
+import CheckoutPage from "../pages/CheckoutPage";
+import ProtectedRoute from "../router/ProtectedRoute";
+
 export default function PageContent() {
   return (
     <main className="w-full overflow-x-hidden">
@@ -16,20 +19,24 @@ export default function PageContent() {
         <Route exact path="/" component={HomePage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/about" component={AboutPage} />
+
         <Route
           path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId"
           component={ProductDetailPage}
         />
+
         <Route
           path="/shop/:gender?/:categoryName?/:categoryId?"
           component={ShopPage}
         />
+
         <Route path="/product-detail" component={ProductDetailPage} />
         <Route path="/team" component={TeamPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/cart" component={ShoppingCartPage} />
-        
+
+        <ProtectedRoute path="/checkout" component={CheckoutPage} />
       </Switch>
     </main>
   );
