@@ -60,20 +60,12 @@ export default function CardForm({ card, onClose }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-[8px] border border-[#E8E8E8] bg-white"
+      className="rounded-[8px] border border-[#E8E8E8] bg-[#f7f7f7]"
     >
-      <div className="flex items-center justify-between border-b border-[#E8E8E8] px-5 py-4">
+      <div className="flex items-center justify-between border-b border-[#E8E8E8] bg-[#E8E8E8] px-5 py-4">
         <h2 className="text-[18px] font-bold text-[#252B42]">
           {card?.id ? "Edit Card" : "Card Information"}
         </h2>
-
-        <button
-          type="button"
-          onClick={onClose}
-          className="text-[13px] font-bold text-[#E77C40]"
-        >
-          Close
-        </button>
       </div>
 
       <div className="p-5">

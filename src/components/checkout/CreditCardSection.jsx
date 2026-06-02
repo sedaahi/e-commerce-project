@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CreditCard } from "lucide-react";
+import { CreditCard, Pencil, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CardForm from "./CardForm";
@@ -13,19 +13,14 @@ const maskCardNumber = (cardNo) => {
   if (!cardNo) return "";
   return `${cardNo.slice(0, 4)} **** **** ${cardNo.slice(-4)}`;
 };
+
 const getCardType = (cardNo) => {
   if (!cardNo) return "CARD";
-
   if (cardNo.startsWith("4")) return "VISA";
-
-  if (cardNo.startsWith("5") || cardNo.startsWith("2")) {
-    return "MASTERCARD";
-  }
-
+  if (cardNo.startsWith("5") || cardNo.startsWith("2")) return "MASTERCARD";
   return "CARD";
 };
 
-// 4 ile başlayan kartlarda Visa Logosu 5veya2 ile başlayanlarda Mastercard Logosu diğerlerinde CARD
 const CardBrandLogo = ({ cardNo }) => {
   const cardType = getCardType(cardNo);
 
@@ -52,6 +47,7 @@ const CardBrandLogo = ({ cardNo }) => {
     </div>
   );
 };
+
 export default function CreditCardSection() {
   const dispatch = useDispatch();
 
@@ -133,83 +129,118 @@ export default function CreditCardSection() {
 
                 return (
                   <div key={card.id} className="w-full lg:w-[calc(50%-8px)]">
-                    <label className="mb-2 flex cursor-pointer items-center gap-2">
-                      <input
-                        type="radio"
-                        name="selectedCard"
-                        checked={isSelected}
-                        onChange={() => dispatch(setSelectedCard(card.id))}
-                        className="h-4 w-4 accent-[#E77C40]"
-                      />
+                    <div className="mb-3 flex items-center justify-between">
+                      <label className="flex cursor-pointer items-center gap-2">
+                        <input
+                          type="radio"
+                          name="selectedCard"
+                          checked={isSelected}
+                          onChange={() => dispatch(setSelectedCard(card.id))}
+                          className="h-4 w-4 accent-[#06B6D4]"
+                        />
 
-                      <span
-                        className={`text-[14px] font-bold ${
-                          isSelected ? "text-[#E77C40]" : "text-[#252B42]"
-                        }`}
-                      >
-                        {card.name_on_card}
-                      </span>
-                    </label>
+                        <span
+                          className={`text-[14px] font-bold ${
+                            isSelected ? "text-[#2563EB]" : "text-[#252B42]"
+                          }`}
+                        >
+                          {card.name_on_card}
+                        </span>
+                      </label>
+
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingCard(card);
+                            setShowCardForm(true);
+                          }}
+                          className="group relative rounded-full p-1.5 text-[#2563EB] transition hover:bg-[#EEF6FF]"
+                        >
+                          <Pencil size={16} />
+
+                          <span className="pointer-events-none absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded-[4px] bg-[#252B42] px-2 py-1 text-[11px] font-bold text-white group-hover:block">
+                            Edit
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteCard(card.id)}
+                          className="group relative rounded-full p-1.5 text-red-500 transition hover:bg-red-50"
+                        >
+                          <Trash2 size={16} />
+
+                          <span className="pointer-events-none absolute -top-8 left-1/2 hidden -translate-x-1/2 rounded-[4px] bg-[#252B42] px-2 py-1 text-[11px] font-bold text-white group-hover:block">
+                            Delete
+                          </span>
+                        </button>
+                      </div>
+                    </div>
 
                     <div
-                      className={`min-h-[185px] rounded-[16px] border p-5 shadow-md transition-all ${
+                      className={`relative min-h-[185px] rounded-[16px] border p-5 shadow-md transition-all ${
                         isSelected
-                          ? "border-[#E77C40] bg-gradient-to-br from-[#F28A2E] via-[#B9A36D] to-[#23A6F0] text-white"
-                          : "border-[#E8E8E8] bg-gradient-to-br from-[#F7F7F7] via-[#ECECEC] to-[#DDEEFF] text-[#252B42]"
+                          ? "border-[#06B6D4] shadow-[0_20px_60px_rgba(37,99,235,0.25)] bg-gradient-to-br from-[#c2e8f1] via-[#0891B2] to-[#814ae1] text-white"
+                          : "border-[#E8E8E8] bg-gradient-to-br from-[#F8FAFC] via-[#EEF6FF] to-[#EDE9FE] text-[#252B42]"
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <CreditCard size={30} className={isSelected ? "text-white/90" : "text-[#E77C40]"} />
+                        <CreditCard
+                          size={30}
+                          className={
+                            isSelected ? "text-white/90" : "text-[#2563EB]"
+                          }
+                        />
 
                         <CardBrandLogo cardNo={card.card_no} />
                       </div>
 
                       <div className="mt-8">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-gray/80">
+                        <p
+                          className={`text-[11px] font-bold uppercase tracking-[0.08em] ${
+                            isSelected ? "text-white/75" : "text-[#8A8A8A]"
+                          }`}
+                        >
                           Card Holder
                         </p>
 
-                        <p className="mt-1 text-[15px] font-bold text-[#252B42]">
+                        <p
+                          className={`mt-1 text-[15px] font-bold ${
+                            isSelected ? "text-white" : "text-[#252B42]"
+                          }`}
+                        >
                           {card.name_on_card}
                         </p>
                       </div>
 
                       <div className="mt-6 flex items-end justify-between gap-4">
-                        <p className="text-[15px] font-bold tracking-[0.08em] text-gray">
+                        <p
+                          className={`text-[15px] font-bold tracking-[0.08em] ${
+                            isSelected ? "text-white" : "text-[#252B42]"
+                          }`}
+                        >
                           {maskCardNumber(card.card_no)}
                         </p>
 
                         <div className="text-right">
-                          <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-gray/80">
+                          <p
+                            className={`text-[11px] font-bold uppercase tracking-[0.08em] ${
+                              isSelected ? "text-white/75" : "text-[#8A8A8A]"
+                            }`}
+                          >
                             Valid Thru
                           </p>
 
-                          <p className="mt-1 text-[14px] font-bold text-[#252B42]">
+                          <p
+                            className={`mt-1 text-[14px] font-bold ${
+                              isSelected ? "text-white" : "text-[#252B42]"
+                            }`}
+                          >
                             {card.expire_month}/{card.expire_year}
                           </p>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="mt-3 flex justify-between">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEditingCard(card);
-                          setShowCardForm(true);
-                        }}
-                        className="text-[13px] font-bold text-[#23A6F0]"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteCard(card.id)}
-                        className="text-[13px] font-bold text-red-500"
-                      >
-                        Delete
-                      </button>
                     </div>
                   </div>
                 );
@@ -222,7 +253,7 @@ export default function CreditCardSection() {
               type="checkbox"
               checked={use3DSecure}
               onChange={(event) => setUse3DSecure(event.target.checked)}
-              className="h-5 w-5 accent-[#E77C40]"
+              className="h-5 w-5 accent-[#3692a9]"
             />
 
             <span className="text-[14px] font-bold text-[#252B42]">
