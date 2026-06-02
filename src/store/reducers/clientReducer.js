@@ -1,9 +1,18 @@
-import { SET_ROLES, SET_USER, SET_ADDRESS_LIST, SET_SELECTED_ADDRESS, SET_SELECTED_BILLING_ADDRESS } from "../actions/actionTypes";
+import {
+  SET_ROLES,
+  SET_USER,
+  SET_ADDRESS_LIST,
+  SET_SELECTED_ADDRESS,
+  SET_SELECTED_BILLING_ADDRESS,
+  SET_CREDIT_CARDS,
+  SET_SELECTED_CARD,
+} from "../actions/actionTypes";
 
 const initialState = {
   user: {},
   addressList: [],
   creditCards: [],
+  selectedCardId: null,
   roles: [],
   selectedAddressId: null,
   selectedBillingAddressId: null,
@@ -32,7 +41,11 @@ export default function clientReducer(state = initialState, action) {
         ...state,
         selectedBillingAddressId: action.payload,
       };
+    case SET_CREDIT_CARDS:
+      return { ...state, creditCards: action.payload };
 
+    case SET_SELECTED_CARD:
+      return { ...state, selectedCardId: action.payload };
     // case SET_THEME:
     //   return { ...state, theme: action.payload };
 

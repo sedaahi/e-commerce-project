@@ -1,7 +1,11 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-export default function OrderSummary() {
+export default function OrderSummary({
+  buttonText = "Create Order",
+  onButtonClick,
+  disabled = false,
+}) {
   const cart = useSelector((state) => state.shoppingCart.cart);
 
   const selectedItems = cart.filter((item) => item.checked);
@@ -23,18 +27,39 @@ export default function OrderSummary() {
 
   const grandTotal = productsTotal + shippingPayment - freeShippingDiscount;
 
+  const isButtonDisabled = disabled || totalCount === 0;
+
+  const buttonClassName = `mb-4 flex h-[44px] w-full items-center justify-center rounded-[5px] text-[14px] font-bold text-white ${
+    isButtonDisabled ? "pointer-events-none bg-[#BDBDBD]" : "bg-[#E77C40]"
+  }`;
+
+  const renderActionButton = () => {
+    if (onButtonClick) {
+      return (
+        <button
+          type="button"
+          disabled={isButtonDisabled}
+          onClick={onButtonClick}
+          className={buttonClassName}
+        >
+          {buttonText}
+        </button>
+      );
+    }
+
+    return (
+      <Link
+        to={isButtonDisabled ? "#" : "/checkout"}
+        className={buttonClassName}
+      >
+        {buttonText}
+      </Link>
+    );
+  };
+
   return (
     <aside className="w-full rounded-[8px] bg-white p-5 shadow-sm lg:w-[320px]">
-      <Link
-        to={totalCount === 0 ? "#" : "/checkout"}
-        type="button"
-        disabled={totalCount === 0}
-        className={`mb-4 flex h-[44px] w-full items-center justify-center rounded-[5px] text-[14px] font-bold text-white ${
-          totalCount === 0 ? "bg-[#BDBDBD]" : "bg-[#23A6F0]"
-        }`}
-      >
-        Create Order
-      </Link>
+      {renderActionButton()}
 
       <div className="rounded-[6px] border border-[#E8E8E8] p-5">
         <h2 className="text-[22px] font-normal text-[#252B42]">
@@ -86,14 +111,7 @@ export default function OrderSummary() {
         </div>
       </div>
 
-      <Link
-        to={totalCount === 0 ? "#" : "/checkout"}
-        className={`mb-4 flex h-[44px] w-full items-center justify-center rounded-[5px] text-[14px] font-bold text-white ${
-          totalCount === 0 ? "pointer-events-none bg-[#BDBDBD]" : "bg-[#23A6F0]"
-        }`}
-      >
-        Create Order
-      </Link>
+      {renderActionButton()}
     </aside>
   );
 }

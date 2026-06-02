@@ -1,4 +1,5 @@
-import { SET_ROLES, SET_USER, SET_ADDRESS_LIST, SET_SELECTED_ADDRESS, SET_SELECTED_BILLING_ADDRESS } from "./actionTypes";
+import { SET_ROLES, SET_USER, SET_ADDRESS_LIST, SET_SELECTED_ADDRESS, SET_SELECTED_BILLING_ADDRESS,SET_CREDIT_CARDS,
+SET_SELECTED_CARD } from "./actionTypes";
 
 import { getRoles } from "../../services/roleService";
 import { login, verify } from "../../services/authService";
@@ -8,6 +9,12 @@ import {
   getAddresses,
   updateAddress,
 } from "../../services/addressService";
+import {
+  addCard,
+  deleteCard,
+  getCards,
+  updateCard,
+} from "../../services/cardService";
 import { clearAuthToken, setAuthToken } from "../../services/api";
 import { toast } from "react-toastify";
 
@@ -176,3 +183,61 @@ export const setSelectedBillingAddress = (addressId) => ({
   type: SET_SELECTED_BILLING_ADDRESS,
   payload: addressId,
 });
+
+export const setCreditCards = (cards) => ({
+  type: SET_CREDIT_CARDS,
+  payload: cards,
+});
+
+export const setSelectedCard = (cardId) => ({
+  type: SET_SELECTED_CARD,
+  payload: cardId,
+});
+
+export const fetchCards = () => {
+  return async (dispatch) => {
+    try {
+      const response = await getCards();
+      dispatch(setCreditCards(response.data));
+    } catch (error) {
+      console.error("Cards could not be fetched:", error);
+      throw error;
+    }
+  };
+};
+
+export const createCard = (cardData) => {
+  return async (dispatch) => {
+    try {
+      await addCard(cardData);
+      dispatch(fetchCards());
+    } catch (error) {
+      console.error("Card could not be created:", error);
+      throw error;
+    }
+  };
+};
+
+export const editCard = (cardData) => {
+  return async (dispatch) => {
+    try {
+      await updateCard(cardData);
+      dispatch(fetchCards());
+    } catch (error) {
+      console.error("Card could not be updated:", error);
+      throw error;
+    }
+  };
+};
+
+export const removeCard = (cardId) => {
+  return async (dispatch) => {
+    try {
+      await deleteCard(cardId);
+      dispatch(fetchCards());
+    } catch (error) {
+      console.error("Card could not be deleted:", error);
+      throw error;
+    }
+  };
+};
