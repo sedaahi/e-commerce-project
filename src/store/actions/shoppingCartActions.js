@@ -1,4 +1,4 @@
-import { SET_ADDRESS, SET_CART, SET_PAYMENT } from "./actionTypes";
+import { CLEAR_CART, SET_ADDRESS, SET_CART, SET_PAYMENT } from "./actionTypes";
 
 const saveCartToLocalStorage = (cart) => {
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -110,5 +110,13 @@ export const toggleCartItem = (productId) => {
 
     saveCartToLocalStorage(updatedCart);
     dispatch(setCart(updatedCart));
+  };
+};
+
+export const clearCart = () => {
+  localStorage.removeItem("cart");
+
+  return {
+    type: CLEAR_CART,
   };
 };

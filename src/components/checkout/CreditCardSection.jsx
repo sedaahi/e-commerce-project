@@ -48,7 +48,7 @@ const CardBrandLogo = ({ cardNo }) => {
   );
 };
 
-export default function CreditCardSection() {
+export default function CreditCardSection({ cardCvv, setCardCvv }) {
   const dispatch = useDispatch();
 
   const [showCardForm, setShowCardForm] = useState(false);
@@ -72,10 +72,17 @@ export default function CreditCardSection() {
     await dispatch(removeCard(cardId));
   };
 
+  const handleSelectCard = (cardId) => {
+    dispatch(setSelectedCard(cardId));
+    setCardCvv("");
+  };
+
   return (
     <section className="rounded-[8px] bg-white p-5 shadow-sm">
       <div className="border-b border-[#ECECEC] pb-5">
-        <h2 className="text-[22px] font-bold text-[#252B42]">Payment Method</h2>
+        <h2 className="text-[22px] font-bold text-[#252B42]">
+          Payment Method
+        </h2>
 
         <p className="mt-2 text-[14px] text-[#737373]">
           Select a saved card or add a new card.
@@ -135,7 +142,7 @@ export default function CreditCardSection() {
                           type="radio"
                           name="selectedCard"
                           checked={isSelected}
-                          onChange={() => dispatch(setSelectedCard(card.id))}
+                          onChange={() => handleSelectCard(card.id)}
                           className="h-4 w-4 accent-[#06B6D4]"
                         />
 
@@ -181,7 +188,7 @@ export default function CreditCardSection() {
                     <div
                       className={`relative min-h-[185px] rounded-[16px] border p-5 shadow-md transition-all ${
                         isSelected
-                          ? "border-[#06B6D4] shadow-[0_20px_60px_rgba(37,99,235,0.25)] bg-gradient-to-br from-[#c2e8f1] via-[#0891B2] to-[#814ae1] text-white"
+                          ? "border-[#06B6D4] bg-gradient-to-br from-[#c2e8f1] via-[#0891B2] to-[#814ae1] text-white shadow-[0_20px_60px_rgba(37,99,235,0.25)]"
                           : "border-[#E8E8E8] bg-gradient-to-br from-[#F8FAFC] via-[#EEF6FF] to-[#EDE9FE] text-[#252B42]"
                       }`}
                     >
@@ -242,6 +249,34 @@ export default function CreditCardSection() {
                         </div>
                       </div>
                     </div>
+
+                    {isSelected && (
+                      <div className="mt-3 rounded-[8px] border border-[#D6E8FF] bg-[#F4F8FF] p-4">
+                        <label className="mb-2 block text-[14px] font-bold text-[#252B42]">
+                          CVV
+                        </label>
+
+                        <input
+                          type="text"
+                          value={cardCvv}
+                          onChange={(event) => {
+                            const value = event.target.value
+                              .replace(/\D/g, "")
+                              .slice(0, 3);
+
+                            setCardCvv(value);
+                          }}
+                          placeholder="123"
+                          inputMode="numeric"
+                          className="h-[34px] w-full max-w-[160px] rounded-[5px] border border-[#E8E8E8] px-4 text-[14px] outline-none focus:border-[#3692a9]"
+                        />
+
+                        <p className="mt-2 text-[12px] leading-[18px] text-[#737373]">
+                          Enter the 3-digit security code on the back of your
+                          card.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 );
               })}

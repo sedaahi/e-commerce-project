@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { createOrderRequest } from "../services/orderService";
 
 import OrderSummary from "../components/cart/OrderSummary";
 import AddressForm from "../components/checkout/AddressForm";
@@ -11,23 +13,29 @@ import {
   setSelectedAddress,
   setSelectedBillingAddress,
 } from "../store/actions/clientActions";
+import { clearCart } from "../store/actions/shoppingCartActions";
 
 import { toast } from "react-toastify";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [activeStep, setActiveStep] = useState("address");
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
+  const [cardCvv, setCardCvv] = useState("");
 
   const {
     selectedAddressId,
     selectedBillingAddressId,
     selectedCardId,
     addressList,
+    creditCards,
   } = useSelector((state) => state.client);
+
+  const cart = useSelector((state) => state.shoppingCart.cart);
 
   const selectedAddress = addressList.find(
     (address) => address.id === selectedAddressId,
@@ -36,6 +44,18 @@ export default function CheckoutPage() {
   const selectedBillingAddress = addressList.find(
     (address) => address.id === selectedBillingAddressId,
   );
+  const selectedCard = creditCards.find((card) => card.id === selectedCardId);
+
+  const selectedItems = cart.filter((item) => item.checked);
+
+  const productsTotal = selectedItems.reduce(
+    (total, item) => total + item.product.price * item.count,
+    0,
+  );
+
+  const shippingPayment = selectedItems.length > 0 ? 29.99 : 0;
+  const freeShippingDiscount = productsTotal >= 150 ? shippingPayment : 0;
+  const grandTotal = productsTotal + shippingPayment - freeShippingDiscount;
 
   useEffect(() => {
     dispatch(fetchAddresses());
@@ -69,10 +89,61 @@ export default function CheckoutPage() {
     setActiveStep("payment");
   };
 
-  const handlePayClick = () => {
-    toast.info(
-      "Payment method selected. Order completion will be implemented in the next task.",
-    );
+  const handlePayClick = async () => {
+    if (!selectedAddressId) {
+      toast.error("Please select a delivery address.");
+      setActiveStep("address");
+      return;
+    }
+
+    if (!selectedCard) {
+      toast.error("Please select a payment card.");
+      return;
+    }
+
+    if (cardCvv.length !== 3) {
+      toast.error("Please enter a valid CVV.");
+      return;
+    }
+
+    if (selectedItems.length === 0) {
+      toast.error("Please select at least one product.");
+      return;
+    }
+
+    const orderData = {
+      address_id: Number(selectedAddressId),
+      order_date: new Date().toISOString(),
+      card_no: String(selectedCard.card_no),
+      card_name: selectedCard.name_on_card,
+      card_expire_month: Number(selectedCard.expire_month),
+      card_expire_year: Number(selectedCard.expire_year),
+      card_ccv: Number(cardCvv),
+      price: Number(grandTotal.toFixed(2)),
+      products: selectedItems.map((item) => ({
+        product_id: Number(item.product.id),
+        count: Number(item.count),
+        detail: item.product.name,
+      })),
+    };
+
+    try {
+      const response = await createOrderRequest(orderData);
+
+      setCardCvv("");
+      dispatch(clearCart());
+      toast.success("Order created successfully.");
+
+      history.push({
+        pathname: "/order-complete",
+        state: {
+          order: response.data, //resp order success sayfasına yönlendir
+        },
+      });
+    } catch (error) {
+      toast.error("Order could not be created.");
+      console.error("Order create failed:", error);
+    }
   };
 
   const renderAddressCard = (address, type = "shipping") => {
@@ -299,7 +370,7 @@ export default function CheckoutPage() {
         </div>
       </section>
 
-      <CreditCardSection />
+      <CreditCardSection cardCvv={cardCvv} setCardCvv={setCardCvv} />
     </div>
   );
 
@@ -351,7 +422,7 @@ export default function CheckoutPage() {
             activeStep === "address"
               ? !selectedAddressId ||
                 (!billingSameAsShipping && !selectedBillingAddressId)
-              : !selectedCardId
+              : !selectedCardId || cardCvv.length !== 3
           }
         />
       </div>
