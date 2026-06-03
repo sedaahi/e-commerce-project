@@ -8,6 +8,7 @@ import {
   Heart,
   ChevronDown,
 } from "lucide-react";
+import { useState } from "react";
 import { FaInstagram, FaYoutube, FaFacebook, FaTwitter } from "react-icons/fa";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +26,8 @@ const getCategoryPath = (category) => {
 export default function Header() {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const user = useSelector((state) => state.client.user);
   const categories = useSelector((state) => state.product.categories);
@@ -153,24 +156,39 @@ export default function Header() {
         <div className="hidden items-center gap-4 text-[#23A6F0] lg:flex">
           {user?.email ? (
             <div className="flex items-center gap-3 text-[14px] font-bold">
-              <div className="flex items-center gap-2 text-[#252B42]">
-                <Gravatar
-                  email={user.email}
-                  size={32}
-                  rating="pg"
-                  default="identicon"
-                  className="h-8 w-8 rounded-full"
-                />
-                <span>{user.name || user.email}</span>
-              </div>
+              <div className="group relative">
+                <button
+                  type="button"
+                  className="flex items-center gap-2 text-[#252B42]"
+                >
+                  <Gravatar
+                    email={user.email}
+                    size={32}
+                    rating="pg"
+                    default="identicon"
+                    className="h-8 w-8 rounded-full"
+                  />
+                  <span>{user.name || user.email}</span>
+                  <ChevronDown size={14} />
+                </button>
 
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="text-[13px] font-bold text-[#737373]"
-              >
-                Logout
-              </button>
+                <div className="invisible absolute right-0 top-full z-50 mt-2 w-[180px] rounded-[8px] bg-white py-2 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                  <Link
+                    to="/orders"
+                    className="block px-4 py-2 text-[13px] font-bold text-[#737373] hover:bg-[#FAFAFA] hover:text-[#23A6F0]"
+                  >
+                    Previous Orders
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="block w-full px-4 py-2 text-left text-[13px] font-bold text-[#737373] hover:bg-[#FAFAFA] hover:text-red-500"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <Link
@@ -297,40 +315,56 @@ export default function Header() {
             )}
           </div>
 
-          <Menu size={24} className="text-[#252B42]" />
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle mobile menu"
+          >
+            <Menu size={24} className="text-[#252B42]" />
+          </button>
         </div>
       </div>
 
       {/* Mobile Navigation */}
-      <nav className="flex flex-col items-center gap-[30px] py-10 lg:hidden">
+      <nav
+        className={`flex-col items-center gap-[30px] py-10 lg:hidden ${
+          isMobileMenuOpen ? "flex" : "hidden"
+        }`}
+      >
+        {" "}
         <Link to="/" className="text-[30px] leading-[45px] text-[#737373]">
           Home
         </Link>
-
         <Link to="/shop" className="text-[30px] leading-[45px] text-[#737373]">
           Shop
         </Link>
-
         <Link
           to="/product"
           className="text-[30px] leading-[45px] text-[#737373]"
         >
           Product
         </Link>
-
         <Link
           to="/pricing"
           className="text-[30px] leading-[45px] text-[#737373]"
         >
           Pricing
         </Link>
-
         <Link
           to="/contact"
           className="text-[30px] leading-[45px] text-[#737373]"
         >
           Contact
         </Link>
+        {user?.email && (
+          <Link
+            to="/orders"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-[30px] leading-[45px] text-[#737373]"
+          >
+            Previous Orders
+          </Link>
+        )}
       </nav>
     </header>
   );

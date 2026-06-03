@@ -12,6 +12,7 @@ import ShoppingCartPage from "../pages/ShoppingCartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import ProtectedRoute from "../router/ProtectedRoute";
 import OrderCompletePage from "../pages/OrderCompletePage";
+import PreviousOrdersPage from "../pages/PreviousOrdersPage";
 
 export default function PageContent() {
   return (
@@ -39,6 +40,7 @@ export default function PageContent() {
 
         <ProtectedRoute path="/checkout" component={CheckoutPage} />
         <ProtectedRoute path="/order-complete" component={OrderCompletePage} />
+        <ProtectedRoute path="/orders" component={PreviousOrdersPage} />
       </Switch>
     </main>
   );
