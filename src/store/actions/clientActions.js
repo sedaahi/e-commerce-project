@@ -1,5 +1,12 @@
-import { SET_ROLES, SET_USER, SET_ADDRESS_LIST, SET_SELECTED_ADDRESS, SET_SELECTED_BILLING_ADDRESS,SET_CREDIT_CARDS,
-SET_SELECTED_CARD } from "./actionTypes";
+import {
+  SET_ROLES,
+  SET_USER,
+  SET_ADDRESS_LIST,
+  SET_SELECTED_ADDRESS,
+  SET_SELECTED_BILLING_ADDRESS,
+  SET_CREDIT_CARDS,
+  SET_SELECTED_CARD,
+} from "./actionTypes";
 
 import { getRoles } from "../../services/roleService";
 import { login, verify } from "../../services/authService";
@@ -71,11 +78,15 @@ export const loginUser = (loginData, rememberMe) => {
         localStorage.setItem("token", token);
       }
 
-      toast.success("Login successful.");
+      toast.success("Login successful.", {
+        className: "!bg-[#F3FFF7] !border !border-[#4CAF50] !text-[#4CAF50]",
+      });
 
       return response.data;
     } catch (error) {
-      toast.error("Invalid email or password.");
+      toast.error("Invalid email or password.", {
+        className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+      });
       throw error;
     }
   };
@@ -117,7 +128,9 @@ export const logoutUser = () => {
 
     dispatch(setUser({}));
 
-    toast.success("Logged out successfully.");
+    toast.success("Logged out successfully.", {
+      className: "!bg-[#F3FFF7] !border !border-[#4CAF50] !text-[#4CAF50]",
+    });
   };
 };
 

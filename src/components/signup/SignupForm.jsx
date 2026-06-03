@@ -49,7 +49,9 @@ function SignupForm() {
       })
       .catch(() => {
         setSubmitError("Roles could not be loaded.");
-        toast.error("Roles could not be loaded.");
+        toast.error("Roles could not be loaded.", {
+          className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+        });
       });
   }, [dispatch, setValue]);
 
@@ -95,6 +97,10 @@ function SignupForm() {
 
         toast.success(
           "Account created! Please activate your account via email.",
+          {
+            className:
+              "!bg-[#F3FFF7] !border !border-[#4CAF50] !text-[#4CAF50]",
+          },
         );
 
         setTimeout(() => {
@@ -109,7 +115,10 @@ function SignupForm() {
             "This email is already registered with another account.";
 
           setSubmitError(duplicateMessage);
-          toast.error(duplicateMessage);
+          toast.error(duplicateMessage, {
+            className:
+              "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+          });
 
           return;
         }
@@ -119,7 +128,9 @@ function SignupForm() {
           "Signup failed. Please check your information.";
 
         setSubmitError(message);
-        toast.error(message);
+        toast.error(message, {
+          className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+        });
       })
       .finally(() => {
         setIsSubmittingForm(false);

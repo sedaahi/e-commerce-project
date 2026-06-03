@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,7 +17,12 @@ export default function AppRouter() {
         <PageContent />
         <Footer />
 
-        <ToastContainer position="top-right" autoClose={3000} />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar
+          transition={Slide}
+        />
       </div>
     </Router>
   );

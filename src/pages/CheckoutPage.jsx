@@ -91,23 +91,31 @@ export default function CheckoutPage() {
 
   const handlePayClick = async () => {
     if (!selectedAddressId) {
-      toast.error("Please select a delivery address.");
+      toast.error("Please select a delivery address.", {
+        className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+      });
       setActiveStep("address");
       return;
     }
 
     if (!selectedCard) {
-      toast.error("Please select a payment card.");
+      toast.error("Please select a payment card.", {
+        className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+      });
       return;
     }
 
     if (cardCvv.length !== 3) {
-      toast.error("Please enter a valid CVV.");
+      toast.error("Please enter a valid CVV.", {
+        className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+      });
       return;
     }
 
     if (selectedItems.length === 0) {
-      toast.error("Please select at least one product.");
+      toast.error("Please select at least one product.", {
+        className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+      });
       return;
     }
 
@@ -132,7 +140,9 @@ export default function CheckoutPage() {
 
       setCardCvv("");
       dispatch(clearCart());
-      toast.success("Order created successfully.");
+      toast.success("Order created successfully.", {
+        className: "!bg-[#F3FFF7] !border !border-[#4CAF50] !text-[#4CAF50]",
+      });
 
       history.push({
         pathname: "/order-complete",
@@ -141,7 +151,9 @@ export default function CheckoutPage() {
         },
       });
     } catch (error) {
-      toast.error("Order could not be created.");
+      toast.error("Order could not be created.", {
+        className: "!bg-[#FFF3F3] !border !border-[#F44336] !text-[#F44336]",
+      });
       console.error("Order create failed:", error);
     }
   };
