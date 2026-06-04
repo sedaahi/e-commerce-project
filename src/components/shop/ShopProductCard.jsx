@@ -2,17 +2,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import shopProductImage from "../../assets/images/shop/shop-product.png";
-import { slugify } from "../../utils/slugify";
-
-const getCategoryPath = (category, product) => {
-  if (!category) return `/shop/product/${product.id}`;
-
-  const [genderCode, categoryName] = category.code.split(":");
-  const gender = genderCode === "k" ? "kadin" : "erkek";
-  const productSlug = slugify(product.name);
-
-  return `/shop/${gender}/${categoryName}/${category.id}/${productSlug}/${product.id}`;
-};
+import { getProductDetailPath } from "../../utils/formatters";
 
 export default function ShopProductCard({ product }) {
   const categories = useSelector((state) => state.product.categories);
@@ -26,7 +16,7 @@ export default function ShopProductCard({ product }) {
 
   return (
     <Link
-      to={getCategoryPath(category, product)}
+      to={getProductDetailPath(category, product)}
       className="flex h-full w-full cursor-pointer flex-col items-center transition duration-200 hover:-translate-y-1 hover:shadow-lg"
     >
       <div className="h-[427px] w-full overflow-hidden bg-[#F5F5F5] md:h-[300px]">

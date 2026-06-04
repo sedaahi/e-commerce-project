@@ -16,12 +16,7 @@ const sortOptions = [
   { label: "Rating: High to Low", value: "rating:desc" },
 ];
 
-const getCategoryPath = (category) => {
-  const [genderCode, categoryName] = category.code.split(":");
-  const gender = genderCode === "k" ? "kadin" : "erkek";
-
-  return `/shop/${gender}/${categoryName}/${category.id}`;
-};
+import { getCategoryPath } from "../../utils/formatters";
 
 export default function ShopFilterRow() {
   const dispatch = useDispatch();

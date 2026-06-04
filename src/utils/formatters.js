@@ -1,3 +1,5 @@
+import { slugify } from "./slugify";
+
 export const formatDate = (date) => {
   return new Date(date).toLocaleString("tr-TR", {
     day: "2-digit",
@@ -29,4 +31,19 @@ export const sortOrdersByNewest = (orders) => {
   return [...(orders || [])].sort(
     (a, b) => new Date(b.order_date) - new Date(a.order_date),
   );
+};
+
+export const getCategoryPath = (category) => {
+  if (!category) return "/shop";
+  const [genderCode, categoryName] = category.code.split(":");
+  const gender = genderCode === "k" ? "kadin" : "erkek";
+  return `/shop/${gender}/${categoryName}/${category.id}`;
+};
+
+export const getProductDetailPath = (category, product) => {
+  if (!category) return `/shop/product/${product.id}`;
+  const [genderCode, categoryName] = category.code.split(":");
+  const gender = genderCode === "k" ? "kadin" : "erkek";
+  const productSlug = slugify(product.name);
+  return `/shop/${gender}/${categoryName}/${category.id}/${productSlug}/${product.id}`;
 };

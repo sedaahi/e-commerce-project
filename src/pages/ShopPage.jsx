@@ -9,7 +9,6 @@ import ShopProductList from "../components/shop/ShopProductList";
 import Brands from "../layout/Brands";
 
 import { fetchProducts,setOffset } from "../store/actions/productActions";
-import ShopAdvancedFilter from "../components/shop/ShopAdvancedFilter";
 
 export default function ShopPage() {
   const dispatch = useDispatch();
@@ -40,7 +39,6 @@ export default function ShopPage() {
       <ShopHero />
       <ShopCategoryList />
       <ShopFilterRow />
-      {/* <ShopAdvancedFilter /> */}
       <ShopProductList />
       <Brands showContent={false} bgColor="bg-[#fafafa]" />
       <hr />

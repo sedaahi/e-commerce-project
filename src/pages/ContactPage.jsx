@@ -1,4 +1,4 @@
-import { Phone, MapPin, Mail, Send, Redo } from "lucide-react";
+import { Phone, MapPin, Send, Redo } from "lucide-react";
 
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 

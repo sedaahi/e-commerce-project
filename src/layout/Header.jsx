@@ -15,13 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Gravatar from "react-gravatar";
 
 import { logoutUser } from "../store/actions/clientActions";
-
-const getCategoryPath = (category) => {
-  const [genderCode, categoryName] = category.code.split(":");
-  const gender = genderCode === "k" ? "kadin" : "erkek";
-
-  return `/shop/${gender}/${categoryName}/${category.id}`;
-};
+import { getCategoryPath } from "../utils/formatters";
 
 export default function Header() {
   const history = useHistory();

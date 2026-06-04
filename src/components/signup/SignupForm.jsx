@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { api } from "../../services/api";
 import FormInput from "./FormInput";
 import { signup } from "../../services/authService";
 import { useDispatch, useSelector } from "react-redux";
@@ -90,7 +89,6 @@ function SignupForm() {
       };
     }
 
-    api;
     signup(requestData)
       .then(() => {
         reset();
