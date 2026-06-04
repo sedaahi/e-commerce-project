@@ -1,4 +1,4 @@
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Handbag, House, ShoppingCart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function OrderCompletePage() {
@@ -63,16 +63,26 @@ export default function OrderCompletePage() {
 
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link
-            to="/shop"
-            className="flex h-[44px] items-center justify-center rounded-[5px] bg-[#23A6F0] px-6 text-[14px] font-bold text-white"
+            to="/orders"
+            className="flex h-[44px] items-center justify-center gap-x-2 rounded-[5px] bg-[#47AD97] px-6 text-[14px] font-bold text-white transition-all duration-200 hover:bg-[#3D9884] hover:shadow-md"
           >
+            <Handbag size={18} />
+            View My Orders
+          </Link>
+
+          <Link
+            to="/shop"
+            className="flex h-[44px] items-center justify-center gap-x-2 rounded-[5px] bg-[#00A1C1] px-6 text-[14px] font-bold text-white transition-all duration-200 hover:bg-[#0089A5] hover:shadow-md"
+          >
+            <ShoppingCart size={18} />
             Continue Shopping
           </Link>
 
           <Link
             to="/"
-            className="flex h-[44px] items-center justify-center rounded-[5px] border border-[#E8E8E8] px-6 text-[14px] font-bold text-[#252B42]"
+            className="flex h-[44px] items-center justify-center gap-x-2 rounded-[5px] border border-[#E3E2E2] px-6 text-[14px] font-bold text-[#252B42] transition-all duration-200 hover:border-[#D5D5D5] hover:bg-[#F7F7F7] hover:shadow-sm"
           >
+            <House size={18} />
             Go to Home
           </Link>
         </div>

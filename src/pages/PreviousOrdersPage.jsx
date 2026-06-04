@@ -2,21 +2,12 @@ import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, PackageCheck } from "lucide-react";
 
 import { getOrders } from "../services/orderService";
-
-const formatDate = (date) => {
-  return new Date(date).toLocaleString("tr-TR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
-const maskCardNumber = (cardNo) => {
-  const value = String(cardNo || "");
-  return `**** **** **** ${value.slice(-4)}`;
-};
+import {
+  formatDate,
+  formatPrice,
+  maskCardNumber,
+  sortOrdersByNewest,
+} from "../utils/formatters";
 
 export default function PreviousOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -29,11 +20,7 @@ export default function PreviousOrdersPage() {
       try {
         const response = await getOrders();
         //orderları yeniden eskiye sırala
-        setOrders(
-          [...(response.data || [])].sort(
-            (a, b) => new Date(b.order_date) - new Date(a.order_date),
-          ),
-        );
+        setOrders(sortOrdersByNewest(response.data));
       } catch (error) {
         console.error("Orders could not be fetched:", error);
         setErrorMessage("Orders could not be loaded.");
@@ -50,7 +37,7 @@ export default function PreviousOrdersPage() {
   };
 
   return (
-    <main className="min-h-[70vh] w-full bg-[#FAFAFA] py-[40px]">
+    <main className="min-h-[70vh] w-full bg-white py-[40px]">
       <section className="mx-auto max-w-[1180px] px-6 lg:px-0">
         <div className="rounded-[8px] bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 border-b border-[#ECECEC] pb-5 md:flex-row md:items-center md:justify-between">
@@ -101,18 +88,20 @@ export default function PreviousOrdersPage() {
               </div>
 
               <div className="flex flex-col">
-                {orders.map((order) => {
+                {orders.map((order, index) => {
                   const isOpen = openedOrderId === order.id;
 
                   return (
                     <div
                       key={order.id}
-                      className="border-t border-[#E8E8E8] first:border-t-0"
+                      className={`border-t border-[#E8E8E8] first:border-t-0 transition-colors duration-200 hover:bg-[#F4F8FF] ${
+                        index % 2 === 0 ? "bg-white" : "bg-[#FAFAFA]"
+                      }`}
                     >
                       <button
                         type="button"
                         onClick={() => toggleOrder(order.id)}
-                        className="flex w-full flex-col gap-3 p-4 text-left transition hover:bg-[#FAFAFA] md:flex-row md:items-center"
+                        className="flex w-full flex-col gap-3 p-4 text-left transition-colors duration-200 hover:bg-[#F4F8FF] md:flex-row md:items-center"
                       >
                         <div className="flex justify-between md:w-[18%] md:block">
                           <span className="text-[13px] font-bold text-[#737373] md:hidden">
@@ -149,7 +138,7 @@ export default function PreviousOrdersPage() {
                             Total
                           </span>
                           <span className="text-[15px] font-bold text-[#E77C40]">
-                            ${Number(order.price).toFixed(2)}
+                            {formatPrice(order.price)}
                           </span>
                         </div>
 
@@ -204,17 +193,16 @@ export default function PreviousOrdersPage() {
                                       <span className="text-[#737373]">
                                         Unit Price:{" "}
                                         <strong className="text-[#252B42]">
-                                          ${Number(product.price).toFixed(2)}
+                                          {formatPrice(product.price)}
                                         </strong>
                                       </span>
 
                                       <span className="text-[#737373]">
                                         Subtotal:{" "}
                                         <strong className="text-[#E77C40]">
-                                          $
-                                          {Number(
+                                          {formatPrice(
                                             product.price * product.count,
-                                          ).toFixed(2)}
+                                          )}
                                         </strong>
                                       </span>
                                     </div>
