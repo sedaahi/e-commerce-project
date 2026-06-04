@@ -1,8 +1,10 @@
 import { CLEAR_CART, SET_ADDRESS, SET_CART, SET_PAYMENT } from "./actionTypes";
 
-const saveCartToLocalStorage = (cart) => {
-  localStorage.setItem("cart", JSON.stringify(cart));
-};
+import {
+  clearCartFromLocalStorage,
+  getCartFromLocalStorage,
+  saveCartToLocalStorage,
+} from "../../utils/cartStorage";
 
 export const setCart = (cart) => ({
   type: SET_CART,
@@ -19,9 +21,19 @@ export const setAddress = (address) => ({
   payload: address,
 });
 
+export const loadCartFromLocalStorage = () => {
+  return (dispatch, getState) => {
+    const user = getState().client.user;
+    const cart = getCartFromLocalStorage(user);
+
+    dispatch(setCart(cart));
+  };
+};
+
 export const addToCart = (product) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
+    const user = getState().client.user;
 
     const existingItem = cart.find((item) => item.product.id === product.id);
 
@@ -31,7 +43,7 @@ export const addToCart = (product) => {
       updatedCart = cart.map((item) =>
         item.product.id === product.id
           ? { ...item, count: item.count + 1 }
-          : item
+          : item,
       );
     } else {
       updatedCart = [
@@ -44,7 +56,7 @@ export const addToCart = (product) => {
       ];
     }
 
-    saveCartToLocalStorage(updatedCart);
+    saveCartToLocalStorage(updatedCart, user);
     dispatch(setCart(updatedCart));
   };
 };
@@ -52,11 +64,12 @@ export const addToCart = (product) => {
 export const increaseCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
+    const user = getState().client.user;
 
     const updatedCart = cart.map((item) => {
       if (item.product.id !== productId) return item;
 
-      if (item.count >= item.product.stock) { // stocktan daha fazla eklememe kontrolü
+      if (item.count >= item.product.stock) {
         return item;
       }
 
@@ -66,23 +79,25 @@ export const increaseCartItem = (productId) => {
       };
     });
 
-    saveCartToLocalStorage(updatedCart);
+    saveCartToLocalStorage(updatedCart, user);
     dispatch(setCart(updatedCart));
   };
 };
+
 export const decreaseCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
+    const user = getState().client.user;
 
     const updatedCart = cart
       .map((item) =>
         item.product.id === productId
           ? { ...item, count: item.count - 1 }
-          : item
+          : item,
       )
       .filter((item) => item.count > 0);
 
-    saveCartToLocalStorage(updatedCart);
+    saveCartToLocalStorage(updatedCart, user);
     dispatch(setCart(updatedCart));
   };
 };
@@ -90,10 +105,11 @@ export const decreaseCartItem = (productId) => {
 export const removeCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
+    const user = getState().client.user;
 
     const updatedCart = cart.filter((item) => item.product.id !== productId);
 
-    saveCartToLocalStorage(updatedCart);
+    saveCartToLocalStorage(updatedCart, user);
     dispatch(setCart(updatedCart));
   };
 };
@@ -101,22 +117,27 @@ export const removeCartItem = (productId) => {
 export const toggleCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
+    const user = getState().client.user;
 
     const updatedCart = cart.map((item) =>
       item.product.id === productId
         ? { ...item, checked: !item.checked }
-        : item
+        : item,
     );
 
-    saveCartToLocalStorage(updatedCart);
+    saveCartToLocalStorage(updatedCart, user);
     dispatch(setCart(updatedCart));
   };
 };
 
 export const clearCart = () => {
-  localStorage.removeItem("cart");
+  return (dispatch, getState) => {
+    const user = getState().client.user;
 
-  return {
-    type: CLEAR_CART,
+    clearCartFromLocalStorage(user);
+
+    dispatch({
+      type: CLEAR_CART,
+    });
   };
 };

@@ -5,13 +5,8 @@ import {
   SET_PAYMENT,
 } from "../actions/actionTypes";
 
-const getCartFromLocalStorage = () => {
-  const cart = localStorage.getItem("cart");
-  return cart ? JSON.parse(cart) : [];
-};
-
 const initialState = {
-  cart: getCartFromLocalStorage(),
+  cart: [],
   payment: {},
   address: {},
 };
@@ -26,6 +21,7 @@ export default function shoppingCartReducer(state = initialState, action) {
 
     case SET_ADDRESS:
       return { ...state, address: action.payload };
+
     case CLEAR_CART:
       return {
         ...state,
@@ -33,6 +29,7 @@ export default function shoppingCartReducer(state = initialState, action) {
         payment: {},
         address: {},
       };
+
     default:
       return state;
   }

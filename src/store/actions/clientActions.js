@@ -7,7 +7,7 @@ import {
   SET_CREDIT_CARDS,
   SET_SELECTED_CARD,
 } from "./actionTypes";
-
+import { loadCartFromLocalStorage, setCart } from "./shoppingCartActions";
 import { getRoles } from "../../services/roleService";
 import { login, verify } from "../../services/authService";
 import {
@@ -69,6 +69,7 @@ export const loginUser = (loginData, rememberMe) => {
       const { token, ...userWithoutToken } = response.data;
 
       dispatch(setUser(userWithoutToken));
+      dispatch(loadCartFromLocalStorage());
 
       if (token) {
         setAuthToken(token);
@@ -96,7 +97,10 @@ export const verifyToken = () => {
   return async (dispatch) => {
     const token = localStorage.getItem("token");
 
-    if (!token) return;
+    if (!token) {
+      dispatch(loadCartFromLocalStorage());
+      return;
+    }
 
     try {
       setAuthToken(token);
@@ -106,6 +110,7 @@ export const verifyToken = () => {
       const { token: renewedToken, ...userWithoutToken } = response.data;
 
       dispatch(setUser(userWithoutToken));
+      dispatch(loadCartFromLocalStorage());
 
       if (renewedToken) {
         localStorage.setItem("token", renewedToken);
@@ -127,7 +132,8 @@ export const logoutUser = () => {
     clearAuthToken();
 
     dispatch(setUser({}));
-
+    dispatch(setCart([]));
+    
     toast.success("Logged out successfully.", {
       className: "!bg-[#F3FFF7] !border !border-[#4CAF50] !text-[#4CAF50]",
     });
