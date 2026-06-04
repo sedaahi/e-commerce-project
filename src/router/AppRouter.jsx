@@ -19,7 +19,7 @@ export default function AppRouter() {
 
         <ToastContainer
           position="top-right"
-          autoClose={3000}
+          autoClose={2500}
           hideProgressBar
           transition={Slide}
         />
