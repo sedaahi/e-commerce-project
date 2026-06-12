@@ -1,3 +1,4 @@
+// Uygulamadaki tüm sayfa yönlendirmelerini yöneten router yapısı.
 import AppRouter from "./router/AppRouter";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -10,6 +11,9 @@ function App() {
 
   useEffect(() => {
     dispatch(verifyToken());
+
+    // Kategoriler daha önce yüklenmemişse API'den çekilir.
+    // Böylece kategori verileri uygulama genelinde kullanılabilir hale gelir.
     dispatch(fetchCategoriesIfNeeded());
   }, [dispatch]);
 

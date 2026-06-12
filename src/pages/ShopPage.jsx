@@ -8,39 +8,70 @@ import ShopFilterRow from "../components/shop/ShopFilterRow";
 import ShopProductList from "../components/shop/ShopProductList";
 import Brands from "../layout/Brands";
 
-import { fetchProducts,setOffset } from "../store/actions/productActions";
+import { fetchProducts, setOffset } from "../store/actions/productActions";
 
 export default function ShopPage() {
-  const dispatch = useDispatch();
-  const { categoryId } = useParams();   // url'den catId al
 
-  const filter = useSelector((state) => state.product.filter); //inputtan gelen arama
-  const sort = useSelector((state) => state.product.sort);     //selectten gelen sıralama
-  const limit = useSelector((state) => state.product.limit);   //sayfa başına ürün sayısı
-  const offset = useSelector((state) => state.product.offset); //kaç ürün geçileceği   
+  const dispatch = useDispatch();
+
+  // URL'den categoryId parametresi alınır.
+  // /shop/kadin/tshirt/1  => categoryId = 1
+  const { categoryId } = useParams();
+
+  // Kullanıcının filtre inputuna yazdığı metin
+  const filter = useSelector((state) => state.product.filter);
+
+  //sıralama türü=>price:asc, price:desc
+  const sort = useSelector((state) => state.product.sort);
+
+  // Sayfa başına gösterilecek ürün sayısı : 25
+  const limit = useSelector((state) => state.product.limit);
+
+  // Pagination için kaç ürünün atlanacağını tutar Sayfa 1 → offset 0 Sayfa 2 → offset 25
+  const offset = useSelector((state) => state.product.offset);
 
   useEffect(() => {
+    // API isteğinde kullanılacak query parametreleri oluştur
     const params = {
       limit,
       offset,
     };
 
+    // Kategori seçilmişse kategori filtresi eklenir.
     if (categoryId) params.category = categoryId;
+
+    // Arama filtresi varsa eklenir.
     if (filter) params.filter = filter;
+
+    // Sıralama seçilmişse eklenir.
     if (sort) params.sort = sort;
 
+    // Parametrelerden herhangi biri değiştiğinde
+    // ürünler yeniden API'den çekilir.
     dispatch(fetchProducts(params));
+
   }, [dispatch, categoryId, filter, sort, limit, offset]);
+
   useEffect(() => {
+
+    // Kullanıcı kategori değiştirdiğinde pagination ilk sayfaya döndürülür.
     dispatch(setOffset(0));
+
   }, [dispatch, categoryId]);
+
   return (
     <section className="w-full bg-[#FAFAFA]">
+
       <ShopHero />
+
       <ShopCategoryList />
+
       <ShopFilterRow />
+
       <ShopProductList />
+
       <Brands showContent={false} bgColor="bg-[#fafafa]" />
+
       <hr />
     </section>
   );

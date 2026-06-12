@@ -1,5 +1,4 @@
 import { CLEAR_CART, SET_ADDRESS, SET_CART, SET_PAYMENT } from "./actionTypes";
-
 import {
   clearCartFromLocalStorage,
   getCartFromLocalStorage,
@@ -21,6 +20,8 @@ export const setAddress = (address) => ({
   payload: address,
 });
 
+// Login/verify sonrası veya guest kullanımda,
+// ilgili kullanıcının sepetini localStorage'dan okuyup Redux'a yükler
 export const loadCartFromLocalStorage = () => {
   return (dispatch, getState) => {
     const user = getState().client.user;
@@ -29,6 +30,7 @@ export const loadCartFromLocalStorage = () => {
     dispatch(setCart(cart));
   };
 };
+
 
 export const addToCart = (product) => {
   return (dispatch, getState) => {
@@ -39,6 +41,7 @@ export const addToCart = (product) => {
 
     let updatedCart;
 
+    // Ürün sepette varsa count değerini artır yoksa yeni item olarak ekle
     if (existingItem) {
       updatedCart = cart.map((item) =>
         item.product.id === product.id
@@ -56,11 +59,13 @@ export const addToCart = (product) => {
       ];
     }
 
+    // hem localStorage'a kaydeder hem Redux cart state'ini güncelle
     saveCartToLocalStorage(updatedCart, user);
     dispatch(setCart(updatedCart));
   };
 };
 
+// Sepetteki ürün adedini artırır.
 export const increaseCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
@@ -69,6 +74,7 @@ export const increaseCartItem = (productId) => {
     const updatedCart = cart.map((item) => {
       if (item.product.id !== productId) return item;
 
+      //Stock adetinden fazla arttırmamak için
       if (item.count >= item.product.stock) {
         return item;
       }
@@ -83,6 +89,7 @@ export const increaseCartItem = (productId) => {
     dispatch(setCart(updatedCart));
   };
 };
+
 
 export const decreaseCartItem = (productId) => {
   return (dispatch, getState) => {
@@ -102,6 +109,7 @@ export const decreaseCartItem = (productId) => {
   };
 };
 
+
 export const removeCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;
@@ -114,6 +122,7 @@ export const removeCartItem = (productId) => {
   };
 };
 
+// Ürünün checkout'a dahil edilip edilmeyeceğini değiştirir.(Checkbox kontrolü)
 export const toggleCartItem = (productId) => {
   return (dispatch, getState) => {
     const cart = getState().shoppingCart.cart;

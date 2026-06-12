@@ -20,6 +20,7 @@ const initialState = {
   // language: "",
 };
 
+// Redux state güncellemelerini yönetir.
 export default function clientReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
