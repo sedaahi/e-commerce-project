@@ -1,16 +1,121 @@
-# React + Vite
+# E-Commerce Website
+<p align="center">
+  <img src="./readme-assets/ecommerce-demo.gif" alt="E-Commerce Demo" width="550" />
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  Responsive E-Commerce Application built with React, Redux, React Router, Axios and Tailwind CSS.
+</p>
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Demo
 
-## React Compiler
+🔗 https://e-commerce-project-two-ashen.vercel.app/
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## About The Project
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project was developed as part of the Workintech Full-Stack Development Program.
+
+The application includes a complete e-commerce flow from authentication to order management, featuring product listing, filtering, shopping cart management, checkout, payment operations, and order tracking.
+
+---
+
+## Technologies
+
+* React
+* Vite
+* Redux
+* Redux Thunk
+* React Router v5
+* Axios
+* React Hook Form
+* Tailwind CSS
+* React Toastify
+
+---
+
+## Features
+
+### Authentication
+
+* Login & Signup
+* Remember Me
+* Token Verification
+* Protected Routes
+
+### Product Management
+
+* Product Listing
+* Product Detail Page
+* Dynamic SEO-Friendly URLs
+* Category Filtering
+* Search & Sorting
+* Pagination
+
+### Shopping Cart
+
+* Add / Remove Products
+* Quantity Management
+* User-Based Cart Persistence (Local Storage)
+
+### Checkout
+
+* Address CRUD Operations
+* Credit Card CRUD Operations
+* Two-Step Checkout Flow
+* Order Creation
+
+### Orders
+
+* Previous Orders Page
+* Order Details
+* Collapsible Order Panels
+
+---
+
+## Project Structure
+
+```text
+src
+├── assets
+├── components
+├── layout
+├── pages
+├── router
+├── services
+├── store
+│   ├── actions
+│   └── reducers
+└── utils
+```
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/your-username/ecommerce-project.git
+
+cd ecommerce-project
+
+npm install
+
+npm run dev
+```
+
+---
+
+## Highlights
+
+* Protected routing with authentication control
+* Token verification and automatic login
+* SEO-friendly dynamic product URLs
+* User-specific shopping cart persistence
+* Responsive design for mobile, tablet, and desktop
+* Reusable component architecture
+* Centralized state management with Redux
+
+---
