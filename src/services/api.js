@@ -1,14 +1,13 @@
 import axios from "axios";
 
 // Uygulama genelinde kullanılacak ortak Axios instance'ı oluşturulur.
-// Böylece her istekte tekrar tekrar baseURL yazmak zorunda kalmayız.
 export const api = axios.create({
-  baseURL: "https://workintech-fe-ecommerce.onrender.com",
+  baseURL: "http://localhost:8080",
 });
 
-// Login veya verify işlemi sonrasında gelen token'ı API isteklerine otomatik eklemek için
+// JWT token'ı tüm korumalı API isteklerine otomatik ekler.
 export const setAuthToken = (token) => {
-  api.defaults.headers.common.Authorization = token;
+  api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 // Authorization header'ını temizler.
