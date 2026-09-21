@@ -11,6 +11,22 @@ import {
 import CardBrandLogo from "../common/CardBrandLogo";
 import { maskCardNumberWithFirstDigits } from "../../utils/formatters";
 
+
+const isCardExpired = (card) => {
+  const now = new Date();
+
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+
+  const expireMonth = Number(card.expire_month);
+  const expireYear = Number(card.expire_year);
+
+  return (
+    expireYear < currentYear ||
+    (expireYear === currentYear && expireMonth < currentMonth)
+  );
+};
+
 export default function CreditCardSection({ cardCvv, setCardCvv }) {
   const dispatch = useDispatch();
 
@@ -95,7 +111,8 @@ export default function CreditCardSection({ cardCvv, setCardCvv }) {
           ) : (
             <div className="flex flex-wrap gap-4">
               {creditCards.map((card) => {
-                const isSelected = selectedCardId === card.id;
+                const expired = isCardExpired(card);
+                const isSelected = !expired && selectedCardId === card.id;
 
                 return (
                   <div key={card.id} className="w-full lg:w-[calc(50%-8px)]">
@@ -105,17 +122,34 @@ export default function CreditCardSection({ cardCvv, setCardCvv }) {
                           type="radio"
                           name="selectedCard"
                           checked={isSelected}
-                          onChange={() => handleSelectCard(card.id)}
-                          className="h-4 w-4 accent-[#06B6D4]"
+                          disabled={expired}
+                          onChange={() => {
+                            if (!expired) {
+                              handleSelectCard(card.id);
+                            }
+                          }}
+                          className={`h-4 w-4 accent-[#06B6D4] ${expired ? "cursor-not-allowed opacity-50" : ""
+                            }`}
                         />
 
-                        <span
-                          className={`text-[14px] font-bold ${
-                            isSelected ? "text-[#2563EB]" : "text-[#252B42]"
-                          }`}
-                        >
-                          {card.name_on_card}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`text-[14px] font-bold ${expired
+                                ? "text-[#A0A0A0]"
+                                : isSelected
+                                  ? "text-[#2563EB]"
+                                  : "text-[#252B42]"
+                              }`}
+                          >
+                            {card.name_on_card}
+                          </span>
+
+                          {expired && (
+                            <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold uppercase text-red-500">
+                              Expired
+                            </span>
+                          )}
+                        </div>
                       </label>
 
                       <div className="flex gap-2">
@@ -149,11 +183,10 @@ export default function CreditCardSection({ cardCvv, setCardCvv }) {
                     </div>
 
                     <div
-                      className={`relative min-h-[185px] rounded-[16px] border p-5 shadow-md transition-all ${
-                        isSelected
-                          ? "border-[#06B6D4] bg-gradient-to-br from-[#c2e8f1] via-[#0891B2] to-[#814ae1] text-white shadow-[0_20px_60px_rgba(37,99,235,0.25)]"
-                          : "border-[#E8E8E8] bg-gradient-to-br from-[#F8FAFC] via-[#EEF6FF] to-[#EDE9FE] text-[#252B42]"
-                      }`}
+                      className={`relative min-h-[185px] rounded-[16px] border p-5 shadow-md transition-all ${isSelected
+                        ? "border-[#06B6D4] bg-gradient-to-br from-[#c2e8f1] via-[#0891B2] to-[#814ae1] text-white shadow-[0_20px_60px_rgba(37,99,235,0.25)]"
+                        : "border-[#E8E8E8] bg-gradient-to-br from-[#F8FAFC] via-[#EEF6FF] to-[#EDE9FE] text-[#252B42]"
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <CreditCard
@@ -168,17 +201,15 @@ export default function CreditCardSection({ cardCvv, setCardCvv }) {
 
                       <div className="mt-8">
                         <p
-                          className={`text-[11px] font-bold uppercase tracking-[0.08em] ${
-                            isSelected ? "text-white/75" : "text-[#8A8A8A]"
-                          }`}
+                          className={`text-[11px] font-bold uppercase tracking-[0.08em] ${isSelected ? "text-white/75" : "text-[#8A8A8A]"
+                            }`}
                         >
                           Card Holder
                         </p>
 
                         <p
-                          className={`mt-1 text-[15px] font-bold ${
-                            isSelected ? "text-white" : "text-[#252B42]"
-                          }`}
+                          className={`mt-1 text-[15px] font-bold ${isSelected ? "text-white" : "text-[#252B42]"
+                            }`}
                         >
                           {card.name_on_card}
                         </p>
@@ -186,26 +217,23 @@ export default function CreditCardSection({ cardCvv, setCardCvv }) {
 
                       <div className="mt-6 flex items-end justify-between gap-4">
                         <p
-                          className={`text-[15px] font-bold tracking-[0.08em] ${
-                            isSelected ? "text-white" : "text-[#252B42]"
-                          }`}
+                          className={`text-[15px] font-bold tracking-[0.08em] ${isSelected ? "text-white" : "text-[#252B42]"
+                            }`}
                         >
                           {maskCardNumberWithFirstDigits(card.card_no)}
                         </p>
 
                         <div className="text-right">
                           <p
-                            className={`text-[11px] font-bold uppercase tracking-[0.08em] ${
-                              isSelected ? "text-white/75" : "text-[#8A8A8A]"
-                            }`}
+                            className={`text-[11px] font-bold uppercase tracking-[0.08em] ${isSelected ? "text-white/75" : "text-[#8A8A8A]"
+                              }`}
                           >
                             Valid Thru
                           </p>
 
                           <p
-                            className={`mt-1 text-[14px] font-bold ${
-                              isSelected ? "text-white" : "text-[#252B42]"
-                            }`}
+                            className={`mt-1 text-[14px] font-bold ${isSelected ? "text-white" : "text-[#252B42]"
+                              }`}
                           >
                             {card.expire_month}/{card.expire_year}
                           </p>
