@@ -25,7 +25,7 @@ export const maskCardNumber = (cardNo) => {
 };
 
 // Kartın ilk 4 ve son 4 hanesini gösterir.
-// Kullanıcının hangi kartı seçtiğini daha rahat anlaması için 
+// Kullanıcının hangi kartı seçtiğini daha rahat anlaması için
 export const maskCardNumberWithFirstDigits = (cardNo) => {
   const value = String(cardNo || "");
 
@@ -41,25 +41,33 @@ export const sortOrdersByNewest = (orders) => {
   );
 };
 
-// URL daha okunabilir hale gelmesi ve Seo uyumlu olması için
+// Backend'den gelen gender kodunu URL'de kullanılacak değere çevirir.
+// k -> kadin
+// e -> erkek
+const getGenderPath = (gender) => {
+  return gender === "k" ? "kadin" : "erkek";
+};
+
+// Kategori için SEO uyumlu URL oluşturur.
+// Örnek:
+// gender: "k", code: "ayakkabi", id: 3
+// -> /shop/kadin/ayakkabi/3
 export const getCategoryPath = (category) => {
   if (!category) return "/shop";
 
-  const [genderCode, categoryName] = category.code.split(":");
+  const gender = getGenderPath(category.gender);
 
-  const gender = genderCode === "k" ? "kadin" : "erkek";
-
-  return `/shop/${gender}/${categoryName}/${category.id}`;
+  return `/shop/${gender}/${category.code}/${category.id}`;
 };
 
+// Ürün detay sayfası için SEO uyumlu URL oluşturur.
+// Örnek:
+// /shop/kadin/ayakkabi/3/womens-running-shoes/12
 export const getProductDetailPath = (category, product) => {
   if (!category) return `/shop/product/${product.id}`;
 
-  const [genderCode, categoryName] = category.code.split(":");
-
-  const gender = genderCode === "k" ? "kadin" : "erkek";
-
+  const gender = getGenderPath(category.gender);
   const productSlug = slugify(product.name);
 
-  return `/shop/${gender}/${categoryName}/${category.id}/${productSlug}/${product.id}`;
+  return `/shop/${gender}/${category.code}/${category.id}/${productSlug}/${product.id}`;
 };

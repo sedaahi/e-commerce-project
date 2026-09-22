@@ -29,13 +29,13 @@ export default function Header() {
 
   const cartTotalCount = cart.reduce((total, item) => total + item.count, 0);
 
-  const womenCategories = categories.filter((category) =>
-    category.code.startsWith("k:"),
-  );
+const womenCategories = categories.filter(
+  (category) => category.gender === "k",
+);
 
-  const menCategories = categories.filter((category) =>
-    category.code.startsWith("e:"),
-  );
+const menCategories = categories.filter(
+  (category) => category.gender === "e",
+);
   const cartTotalPrice = cart.reduce(
     (total, item) => total + item.product.price * item.count,
     0,

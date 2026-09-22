@@ -1,6 +1,6 @@
 import { CheckCircle, Handbag, House, ShoppingCart } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-
+import { maskCardNumber } from "../utils/formatters";
 export default function OrderCompletePage() {
   const location = useLocation();
   const order = location.state?.order;
@@ -47,7 +47,7 @@ export default function OrderCompletePage() {
               <div className="flex justify-between gap-4">
                 <span className="text-[#737373]">Payment Card</span>
                 <span className="font-bold text-[#252B42]">
-                  **** **** **** {String(order.card_no).slice(-4)}
+                  {maskCardNumber(order.card_last_four)}
                 </span>
               </div>
 
