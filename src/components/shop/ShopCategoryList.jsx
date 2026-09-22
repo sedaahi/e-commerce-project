@@ -6,6 +6,7 @@ import { getCategoryPath } from "../../utils/formatters";
 export default function ShopCategoryList() {
   const categories = useSelector((state) => state.product.categories);
 
+  // Rating'e göre en yüksek 5 kategoriyi gösterir.
   const topCategories = [...categories]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 5);
@@ -26,14 +27,10 @@ export default function ShopCategoryList() {
             className="h-full w-full object-cover"
           />
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20">
-            <h2 className="text-[16px] font-bold leading-[24px] text-white">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+            <h2 className="text-center text-[16px] font-bold leading-[24px] text-white">
               {category.title}
             </h2>
-
-            <p className="text-[14px] font-bold leading-[24px] text-white">
-              Rating: {category.rating}
-            </p>
           </div>
         </Link>
       ))}

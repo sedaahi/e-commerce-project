@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 import { createCard, editCard } from "../../store/actions/clientActions";
+import { toast } from "react-toastify";
 
 const formatCardNumber = (value) => {
   return value
@@ -40,22 +41,48 @@ export default function CardForm({ card, onClose }) {
 
   const cardNoValue = watch("card_no");
 
-  const onSubmit = async (formData) => {
-    const payload = {
-      card_no: clearCardNumber(formData.card_no),
-      name_on_card: formData.name_on_card,
-      expire_month: Number(formData.expire_month),
-      expire_year: Number(formData.expire_year),
-    };
+const onSubmit = async (formData) => {
+  const expireMonth = Number(formData.expire_month);
+  const expireYear = Number(formData.expire_year);
 
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
+
+  const isExpired =
+    expireYear < currentYear ||
+    (expireYear === currentYear && expireMonth < currentMonth);
+
+  if (isExpired) {
+    toast.error("Card has expired.");
+    return;
+  }
+
+  const payload = {
+    card_no: clearCardNumber(formData.card_no),
+    name_on_card: formData.name_on_card,
+    expire_month: expireMonth,
+    expire_year: expireYear,
+  };
+
+  try {
     if (card?.id) {
       await dispatch(editCard({ id: card.id, ...payload }));
+      toast.success("Card updated successfully.");
     } else {
       await dispatch(createCard(payload));
+      toast.success("Card saved successfully.");
     }
 
     onClose();
-  };
+  } catch (error) {
+    const message =
+      error.response?.data?.message ||
+      "Card could not be saved. Please try again.";
+
+    toast.error(message);
+  }
+};
 
   return (
     <form
