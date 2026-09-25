@@ -287,7 +287,7 @@ export const createCard = (cardData) => {
   return async (dispatch) => {
     try {
       await addCard(cardData);
-      dispatch(fetchCards());
+      await dispatch(fetchCards());
     } catch (error) {
       console.error("Card could not be created:", error);
       throw error;
@@ -299,7 +299,7 @@ export const editCard = (cardData) => {
   return async (dispatch) => {
     try {
       await updateCard(cardData);
-      dispatch(fetchCards());
+      await dispatch(fetchCards());
     } catch (error) {
       console.error("Card could not be updated:", error);
       throw error;

@@ -65,7 +65,7 @@ export default function PreviousOrdersPage() {
               <PackageCheck size={18} />
 
               <span className="text-[13px] font-bold">
-                {orders.length} Orders
+                {orders.length} {orders.length === 1 ? "Order" : "Orders"}
               </span>
             </div>
           </div>
